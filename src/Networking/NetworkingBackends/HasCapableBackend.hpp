@@ -11,3 +11,13 @@
 
 // TODO: Implement a way to identify users
 // std::vector<UserIdentity> m_excludedMemberList;
+
+
+class HasCapableBackend {
+    public:
+        virtual void sendMessageToLobby() = 0;
+        virtual void recvMessages() = 0;
+
+        virtual bool getIsHost() = 0;
+        bool m_isHosting = false;
+};
