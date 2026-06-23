@@ -33,6 +33,7 @@ union MessageBody {
 
 table MessageHeader {
     body:MessageBody; 
+    destination:int;
 }
 
 table CreateObjects {
