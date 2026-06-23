@@ -4,11 +4,7 @@
 #include <Geode/binding/GJBaseGameLayer.hpp>
 #include <Geode/binding/LevelSettingsObject.hpp>
 
-#ifdef NO_STEAMWORKS
-    #include <dedicated/steamnetworkingtypes.h>
-#else
-    #include <steamnetworkingtypes.h>
-#endif
+#include <steamworks/steamnetworkingtypes.h>
 
 using namespace geode::prelude;
 

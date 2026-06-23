@@ -10,7 +10,9 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(CreateTogether VERSION 1.0.0)
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
+    src/*.cpp
+)
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
@@ -20,7 +22,14 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-target_include_directories(${PROJECT_NAME} PRIVATE src)
+target_include_directories(${PROJECT_NAME}
+    PUBLIC include
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(${PROJECT_NAME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/steam_api64.lib
+)
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 

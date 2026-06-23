@@ -1,3 +1,5 @@
+#pragma once
+
 // Fully virtual class containing the following:
 
 // sendMessageToLobby(); - Sends a flatbuf. message to everyone else in the lobby
@@ -18,6 +20,6 @@ class HasCapableBackend {
         virtual void sendMessageToLobby() = 0;
         virtual void recvMessages() = 0;
 
-        virtual bool getIsHost() = 0;
+        bool m_isLobbyHost = false;
         bool m_isHosting = false;
 };

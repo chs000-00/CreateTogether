@@ -3,14 +3,8 @@
 #include <Geode/Geode.hpp>
 #include <Geode/binding/LevelEditorLayer.hpp>
 #include <Geode/binding/PlayLayer.hpp>
-#include "../config.hpp"
 
-
-#ifdef NO_STEAMWORKS
-    #include <dedicated/isteamnetworkingutils.h>
-#else
-    #include <isteamnetworkingutils.h>
-#endif
+#include <steamworks/isteamnetworkingutils.h>
 
 using namespace geode::prelude;
 
