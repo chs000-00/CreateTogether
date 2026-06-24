@@ -20,6 +20,8 @@ class HasCapableBackend {
         virtual void sendMessageToLobby() = 0;
         virtual void recvMessages() = 0;
 
+        // When leaving the lobby the dtor gets called.
+        virtual ~HasCapableBackend();
+
         bool m_isLobbyHost = false;
-        bool m_isHosting = false;
 };
