@@ -24,5 +24,5 @@ std::string hashSteamNetowrkingID(SteamNetworkingIdentity id);
 bool steamworksLoaded();
 bool steamworksUnloaded();
 
-bool steamworksEnabled();
-bool steamworksDisabled();
+// bool steamworksEnabled();
+// bool steamworksDisabled();

@@ -1,7 +1,7 @@
 #include "NetManager.hpp"
 
 void NetManager::update() {
-    if (this->m_isSteamworksEnabled) {
+    if (this->m_isSteamworksLoaded) {
         SteamAPI_RunCallbacks();
     }
 

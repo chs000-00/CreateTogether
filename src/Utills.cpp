@@ -124,20 +124,3 @@ std::string hashSteamNetowrkingID(SteamNetworkingIdentity id) {
     // log::debug("CursorHash {}", buf);
     return buf;
 }
-
-
-bool steamworksLoaded() {
-    #ifdef STEAMWORKS
-        return SteamManager::get()->m_steamworksLoaded;
-    #else 
-        return false;
-    #endif
-}
-
-bool steamworksUnloaded() {
-    #ifdef STEAMWORKS
-        return !SteamManager::get()->m_steamworksLoaded;
-    #else 
-        return true;
-    #endif
-}

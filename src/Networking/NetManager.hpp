@@ -22,7 +22,7 @@ class NetManager : public Singleton<NetManager> {
 
         HasCapableBackend* m_backend;
         bool m_isHosting = false;
-        bool m_isSteamworksEnabled = false;
+        bool m_isSteamworksLoaded = false;
 
         flatbuffers::FlatBufferBuilder m_builder;
 };

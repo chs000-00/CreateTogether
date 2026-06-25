@@ -14,6 +14,10 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     src/*.cpp
 )
 
+add_compile_definitions(
+    STEAMWORKS=1
+)
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 if (NOT DEFINED ENV{GEODE_SDK})
