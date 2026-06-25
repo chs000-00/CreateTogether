@@ -14,11 +14,15 @@ SteamworksBackend::~SteamworksBackend() {
 
 }
 
-void SteamworksBackend::startHosting(uint8_t max) {
-    SteamMatchmaking()->CreateLobby(k_ELobbyTypeFriendsOnly, max);
+void SteamworksBackend::create(ELobbyType lobbyType, uint8_t max) {
+
     auto net = NetManager::get();
     if (net->m_isHosting) {
         log::error("NetManager is already hosting an instance");
         return;
     }
+
+    SteamMatchmaking()->CreateLobby(lobbyType, max);
+
+    return;
 }

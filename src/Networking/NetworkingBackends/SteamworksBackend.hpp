@@ -19,7 +19,7 @@ class SteamworksBackend : HasCapableBackend {
 
         void connectToLobby();
 
-        void startHosting(uint8_t max);
+        static void create(ELobbyType lobbyType, uint8_t max);
         
         ~SteamworksBackend();
 
