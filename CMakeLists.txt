@@ -34,3 +34,6 @@ target_link_libraries(${PROJECT_NAME}
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 setup_geode_mod(${PROJECT_NAME})
+
+CPMAddPackage("gh:camila314/UIBuilder#main")
+target_link_libraries(${PROJECT_NAME} UIBuilder)

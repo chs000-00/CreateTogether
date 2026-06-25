@@ -6,6 +6,11 @@ void SteamworksBackend::sendMessageToLobby() {
 }
 
 void SteamworksBackend::recvMessages() {
+    SteamNetworkingMessage_t* messageList[MAX_EDITOR_MESSAGES_STEAMWORKS];
+
+}
+
+SteamworksBackend::~SteamworksBackend() {
 
 }
 

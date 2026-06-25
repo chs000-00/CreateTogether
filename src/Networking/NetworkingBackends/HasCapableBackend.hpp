@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
+
 // Fully virtual class containing the following:
 
 // sendMessageToLobby(); - Sends a flatbuf. message to everyone else in the lobby
@@ -21,7 +25,9 @@ class HasCapableBackend {
         virtual void recvMessages() = 0;
 
         // When leaving the lobby the dtor gets called.
-        virtual ~HasCapableBackend();
+        virtual ~HasCapableBackend() {
+            log::info("Deconstructing HasCapableBackend");
+        }
 
         bool m_isLobbyHost = false;
 };

@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <steamworks/isteammatchmaking.h>
+#include <Networking/NetManager.hpp>
 // #include "WindowsStartup.hpp"
 
 using namespace geode::prelude;
@@ -10,10 +11,14 @@ using namespace geode::prelude;
 $execute {
     auto steam = GetModuleHandle("steam_api64.dll");
 
+    NetManager::get()->m_isSteamworksEnabled = true;
+
     if (!steam) {
         geode::log::error("You take 30 million horses and put them in a room, then wait a year. Half of them die due to cramming so you have 15 million left. Some of them have kids so now you have 27 million horses, rinse and repeat. After that, you should be left with 5 of the most beautiful, most inbred creatures on our dear planet earth. Enjoy your creations while they last because they will die. Or you can sell them for major doubloons.");
         geode::log::error("gd pirata. ¡Desactivando Steamworks!");
+        NetManager::get()->m_isSteamworksEnabled = false;
     }
+
     // _Init = (Init_t)GetProcAddress(steam, "SteamAPI_ISteamInput_Init");
     // _RunFrame = (RunFrame_t)GetProcAddress(steam, "SteamAPI_ISteamInput_RunFrame");
 }
