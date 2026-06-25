@@ -6,11 +6,9 @@
 #include <steamworks/isteammatchmaking.h>
 
 #include "HasCapableBackend.hpp"
+#include <Constants.hpp>
 
 using namespace geode::prelude;
-
-// TODO: Move this out if the header file
-#define MAX_EDITOR_MESSAGES_STEAMWORKS 128
 
 class SteamworksBackend : HasCapableBackend {
     public:
