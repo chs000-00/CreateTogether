@@ -15,7 +15,7 @@ bool isWithinRange(int n, int min, int max) {
 }
 
 // Toggle the proper setting from an intOption.
-Result<uint8_t> toggleFromLevelSettings(LevelSettingsObject* settings, int option) {
+Result<void> toggleFromLevelSettings(LevelSettingsObject* settings, int option) {
     switch (option) {
         case 0:
             settings->m_startMini = !settings->m_startMini;
@@ -106,10 +106,10 @@ Result<uint8_t> toggleFromLevelSettings(LevelSettingsObject* settings, int optio
             return Err("toggleFromLevelSettings: No corresponding option found");
             break;
     }
-    return Ok(0);
+    return Ok();
 }
 
-std::string hashSteamNetowrkingID(SteamNetworkingIdentity id) {
+std::string hashSteamNetworkingID(SteamNetworkingIdentity id) {
 
     #ifdef NO_STEAMWORKS
         SteamNetworkingIPAddr fromServerAddr;
@@ -123,4 +123,20 @@ std::string hashSteamNetowrkingID(SteamNetworkingIdentity id) {
     id.ToString(buf, sizeof(buf));
     // log::debug("CursorHash {}", buf);
     return buf;
+}
+
+std::string convertLobbyResultToString(EResult res) {
+    switch(res) {
+        case k_EResultTimeout:
+            return "Steam did not respond in time";
+        case k_EResultFail:
+            return "Steam responded with an unknown internal error";
+        case k_EResultAccessDenied:
+            return "you don't have access to this game, or p2p was disabled by robtop";
+        case k_EResultLimitExceeded:
+            return "you have created too many lobbies";
+        case k_EResultOK:
+        default:
+            return fmt::format("a bad error code was recieved {}", fmt::underlying(res));
+    }
 }

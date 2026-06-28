@@ -1,7 +1,7 @@
 #pragma once
 
 #define MOD_LOBBY_ID geode::Mod::get()->getID()
-#define MOD_VERSION geode::Mod::get()->getVersion().toVString(true);
+#define MOD_VERSION geode::Mod::get()->getVersion().toVString(true)
 
 #define EDITOR_CHANNEL 0
 #define CURSOR_CHANNEL 1
