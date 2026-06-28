@@ -1,47 +1,57 @@
 #include "HostPopup.hpp"
 
 bool HostPopup::init() {
-    if (!Popup::init(300.f, 200.f))
+    if (!Popup::init(340.f, 250.f, "GE_square02.png"))
         return false;
 
     // convenience function provided by Popup
     // for adding/setting a title to the popup
     this->setTitle("Start Hosting");
 
+    Build<CCNode>::create()
+        .layout(
+            Build<ColumnLayout>::createWithAligns(AxisAlignment::Center, AxisAlignment::Center)
+            .autoScale(false)
+        ).contentSize({300, 200})
+        .children(
+
+            Build<CCMenu>::create()
+                .layout(
+                    Build<RowLayout>::createWithAligns(AxisAlignment::Center, AxisAlignment::Center)
+                    .autoScale(false)
+                ).contentSize({300, 200})
+                .children(
+                    Build<CCMenuItemToggler>::createToggle([](CCMenuItemToggler* toggler) {
+                        log::info("toggled invite! {}", toggler->isOn()); 
+                    }).scale(0.75),
+                    Build<CCLabelBMFont>::create("Require Invite", "bigFont.fnt").scale(0.75)
+                ).updateLayout(),
+
+            Build<CCMenu>::create()
+                .layout(
+                    Build<RowLayout>::createWithAligns(AxisAlignment::Center, AxisAlignment::Center)
+                    .autoScale(false)
+                ).contentSize({300, 200})
+                .children(
+                    Build<CCMenuItemToggler>::createToggle([](CCMenuItemToggler* toggler) {
+                        log::info("toggled steamworks! {}", toggler->isOn()); 
+                    }).scale(0.75),
+                    Build<CCLabelBMFont>::create("Use Steamworks", "bigFont.fnt").scale(0.75)
+                ).updateLayout()
+
+        ).updateLayout()
+        .anchorPoint({0.5, 0.5})
+        .parentAtPos(m_mainLayer, Anchor::Center);
+
     auto btn = geode::Button::createWithNode(
-        ButtonSprite::create("Start Hosting"),
+        ButtonSprite::create("Start Hosting", 0, false, "goldFont.fnt", "GJ_button_05.png", .0f, 1.4f),
         [this](auto sender) {
             startHosting();
         }
     );
 
-    Build<CCLabelBMFont>::create("Friends Only", "bigFont.fnt").scale(0.5);
-    Build<CCLabelBMFont>::create("Invite Only", "bigFont.fnt").scale(0.5);
-    Build<CCLabelBMFont>::create("Public", "bigFont.fnt").scale(0.5);
-
-    // auto checkMarkMenu = CCMenu::create();
-    // checkMarkMenu->setLayout(RowLayout::create());
-    // checkMarkMenu->setContentSize(this->getContentSize());
-
-    // auto publicText = CCLabelBMFont::create("Public Lobby", "bigFont.fnt");
-    // auto publicToggle = CCMenuItemExt::createTogglerWithStandardSprites(
-    //     1.0f,
-    //     [this](CCMenuItemToggler* sender) {
-    //         log::debug("Setting isPublic to {}.", !sender->isOn());
-    //     }
-    // );
-
-    // // TODO: Fix this reseting or something idfk
-    // // publicToggle->toggle();
-
-    // checkMarkMenu->addChild(publicText);
-    // checkMarkMenu->addChild(publicToggle);
-    // checkMarkMenu->updateLayout();
-    // checkMarkMenu->setScale(0.5f);
-    // this->m_buttonMenu->addChildAtPosition(checkMarkMenu, Anchor::Center);
-
-    // m_mainLayer->addChildAtPosition(lobbyTypeDropdown, Anchor::Center);
-    m_mainLayer->addChildAtPosition(btn, Anchor::Bottom, {0, 20});
+    m_mainLayer->addChildAtPosition(btn, Anchor::Bottom, {0, 25});
+    this->m_noElasticity = true;
 
     return true;
 }
