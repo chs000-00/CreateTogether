@@ -7,6 +7,8 @@
 #include <steamworks/isteammatchmaking.h>
 
 #include <Types/Singleton.hpp>
+#include <Networking/NetManager.hpp>
+#include <Networking/NetworkingBackends/SteamworksBackend.hpp>
 #include <Constants.hpp>
 #include <Utills.hpp>
 

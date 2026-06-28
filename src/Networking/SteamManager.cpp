@@ -56,7 +56,6 @@ void SteamManager::onGameJoinRequest(GameLobbyJoinRequested_t* pCallback) {
 
 
 void SteamManager::onLobbyEnter(LobbyEnter_t* pCallback) {
-
     if (pCallback->m_EChatRoomEnterResponse != k_EChatRoomEnterResponseSuccess) {
         log::error("Failed to enter lobby with error code {}", pCallback->m_EChatRoomEnterResponse);
         FLAlertLayer::create(
@@ -66,6 +65,36 @@ void SteamManager::onLobbyEnter(LobbyEnter_t* pCallback) {
         )->show();
         return;
     }
+}
+
+
+void SteamManager::onLobbyChatUpdateWrapper(LobbyChatUpdate_t* pCallback) {
+
+    auto netManager = NetManager::get();
+
+    auto properBackend = dynamic_cast<SteamworksBackend*>(netManager->m_backend);
+
+    if (pCallback->m_ulSteamIDUserChanged == properBackend->m_hostID.ConvertToUint64()) {
+        if (pCallback->m_rgfChatMemberStateChange == k_EChatMemberStateChangeLeft || pCallback->m_rgfChatMemberStateChange == k_EChatMemberStateChangeDisconnected) {
+            log::info("Host left server! Leaving lobby.");
+
+            // properBackend->leaveLobby();
+
+            switchToScene(CreatorLayer::create());
+
+            FLAlertLayer::create(
+                "Host left server",    
+                "The host has left the server!",  
+                "Ok"
+            )->show();
+
+        }
+    }
+
+    log::debug("LobbyChatUpdateWrapper called. UserID: {} | UserName: {} | StateChange: {} | SteamIDMakingChange: {}", pCallback->m_ulSteamIDUserChanged, SteamFriends()->GetFriendPersonaName(pCallback->m_ulSteamIDUserChanged), pCallback->m_rgfChatMemberStateChange, pCallback->m_ulSteamIDMakingChange);
+
+
+    // netManager->fetchMemberList();
 }
 
 
