@@ -54,16 +54,16 @@ class $modify(ModifiedEditorPauseLayer, EditorPauseLayer) {
         auto fields = m_fields.self();
         fields->m_lobbyPopup = HostPopup::create();
         if (fields->m_lobbyPopup) {
-            fields->m_lobbyPopup->show();
+            fields->m_lobbyPopup->alternateShow();
         }
 
-        // if (!Mod::get()->setSavedValue("shown-beta-warning", true)) {
+        if (!Mod::get()->setSavedValue("shown-beta-warning", true)) {
             FLAlertLayer::create(
                 "Warning:",
                 "Create together is currently in beta! Issues can and will arrise, so please make sure you backed up your levels beforehand!",
                 "Continue"
             )->show();
-        // }
+        }
     }
 
     // TODO: There might be an issue with exiting the lobby before you get to confirm exiting on the popup.

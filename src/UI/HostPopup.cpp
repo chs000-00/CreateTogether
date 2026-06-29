@@ -51,7 +51,6 @@ bool HostPopup::init() {
     );
 
     m_mainLayer->addChildAtPosition(btn, Anchor::Bottom, {0, 25});
-    this->m_noElasticity = true;
 
     return true;
 }
@@ -69,4 +68,70 @@ HostPopup* HostPopup::create() {
 
     delete ret;
     return nullptr;
+}
+
+void HostPopup::alternateShow() {
+    if (this->m_noElasticity) {
+        auto scene = CCDirector::sharedDirector()->m_pRunningScene;
+        if (this->m_scene) {
+            scene = static_cast<CCScene*>(this->m_scene);
+        } else {
+            int highestZChild;
+            if (scene->CCScene::getHighestChildZ() + 1 >= 105) {
+                highestZChild = scene->CCScene::getHighestChildZ() + 1;
+            } else {
+                highestZChild = 105;
+            }
+            this->m_ZOrder = highestZChild;
+        }
+        if (!this->m_ZOrder) {
+            this->m_ZOrder = 105;
+        }
+        scene->addChild(this);
+
+    } else {
+        
+        float opacity = this->getOpacity();
+        this->m_mainLayer->setScale(0);
+        this->m_mainLayer->setRotation(-15);
+
+
+        auto scaleAction = CCScaleTo::create(0.5, 1.0);
+        
+        auto rotateAction = CCRotateTo::create(0.5, 0.0);
+
+        auto easedScaleAction = CCEaseBackOut::create(scaleAction);
+        auto easedRotationAction = CCEaseBackOut::create(rotateAction);
+
+        this->m_mainLayer->runAction(easedScaleAction);
+        this->m_mainLayer->runAction(easedRotationAction);
+
+        auto scene = CCDirector::sharedDirector()->m_pRunningScene;
+
+        if (this->m_scene) {
+            scene = static_cast<CCScene *>(this->m_scene);
+        } else {
+            int highestZChild;     
+
+            if (scene->getHighestChildZ() + 1 >= 105) {
+                highestZChild = scene->getHighestChildZ() + 1;
+            } else {
+                highestZChild = 105;
+            }
+            this->m_ZOrder = highestZChild;
+
+        }
+
+        if (!this->m_ZOrder) {
+            this->m_ZOrder = 105;
+        }
+
+        scene->addChild(this);
+        this->setOpacity(0); // Hide the FLAlertLayer
+        auto fadeAction = CCFadeTo::create(0.14, opacity); // Fade in the FLAlertLayer
+        this->runAction(fadeAction);
+
+    }
+    
+    this->setVisible(true);
 }

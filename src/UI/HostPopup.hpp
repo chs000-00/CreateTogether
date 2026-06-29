@@ -14,5 +14,6 @@ protected:
     void startHosting();
 
 public:
-    static HostPopup* create();
+static HostPopup* create();
+    void alternateShow();
 };
