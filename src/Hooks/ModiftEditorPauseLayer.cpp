@@ -54,7 +54,7 @@ class $modify(ModifiedEditorPauseLayer, EditorPauseLayer) {
         auto fields = m_fields.self();
         fields->m_lobbyPopup = HostPopup::create();
         if (fields->m_lobbyPopup) {
-            fields->m_lobbyPopup->alternateShow();
+            fields->m_lobbyPopup->show();
         }
 
         if (!Mod::get()->setSavedValue("shown-beta-warning", true)) {

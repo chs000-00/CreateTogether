@@ -21,8 +21,13 @@ bool HostPopup::init() {
                     .autoScale(false)
                 ).contentSize({300, 200})
                 .children(
-                    Build<CCMenuItemToggler>::createToggle([](CCMenuItemToggler* toggler) {
+                    Build<CCMenuItemToggler>::createToggle([this](CCMenuItemToggler* toggler) {
                         log::info("toggled invite! {}", toggler->isOn()); 
+                        if (toggler->isOn()) {
+                            this->m_currentLobbyType = k_ELobbyTypeFriendsOnly;
+                        } else {
+                            this->m_currentLobbyType = k_ELobbyTypePrivate;
+                        }
                     }).scale(0.75),
                     Build<CCLabelBMFont>::create("Require Invite", "bigFont.fnt").scale(0.75)
                 ).updateLayout(),
@@ -57,6 +62,8 @@ bool HostPopup::init() {
 
 void HostPopup::startHosting() {
     log::info("Started hosting");
+    auto net = NetManager::get();
+    SteamworksBackend::create(m_currentLobbyType, MAX_USERS);
 }
 
 HostPopup* HostPopup::create() {
@@ -70,7 +77,7 @@ HostPopup* HostPopup::create() {
     return nullptr;
 }
 
-void HostPopup::alternateShow() {
+void HostPopup::show() {
     if (this->m_noElasticity) {
         auto scene = CCDirector::sharedDirector()->m_pRunningScene;
         if (this->m_scene) {
@@ -93,13 +100,21 @@ void HostPopup::alternateShow() {
         
         float opacity = this->getOpacity();
         this->m_mainLayer->setScale(0);
-        this->m_mainLayer->setRotation(-15);
 
+
+        CCActionInterval * rotateAction;
+
+        // Haha funny easter egg
+        if (!geode::utils::random::chance(0.02f)) {
+            this->m_mainLayer->setRotation(-15);
+            rotateAction = CCRotateTo::create(0.5, 0.0);
+        } else {
+            this->m_mainLayer->setRotation(0);
+            rotateAction = CCRotateBy::create(0.5, 360.0);
+        }
 
         auto scaleAction = CCScaleTo::create(0.5, 1.0);
         
-        auto rotateAction = CCRotateTo::create(0.5, 0.0);
-
         auto easedScaleAction = CCEaseBackOut::create(scaleAction);
         auto easedRotationAction = CCEaseBackOut::create(rotateAction);
 

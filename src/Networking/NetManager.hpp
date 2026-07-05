@@ -2,6 +2,9 @@
 
 #include <Geode/Geode.hpp>
 #include <Networking/NetworkingBackends/HasCapableBackend.hpp>
+#include <Networking/NetworkingBackends/SteamworksBackend.hpp>
+#include <Networking/NetworkingBackends/GNSBackend.hpp>
+
 #include <Types/Singleton.hpp>
 
 #include <steamworks/isteamnetworkingmessages.h>
@@ -21,6 +24,9 @@ class NetManager : public Singleton<NetManager> {
         void update();
 
         HasCapableBackend* m_backend;
+        SteamworksBackend* m_steamBackend;
+        // GNSBackend* m_gnsBackend;
+
         bool m_isHosting = false;
         bool m_isSteamworksLoaded = false;
 
