@@ -36,7 +36,8 @@ xwin --arch x86_64 --accept-license splat --include-debug-libs --output splat
 
 git clone https://github.com/matcool/clang-msvc-sdk.git toolchain
 
-sudo mkdir /home/GeometryDashFake/
+# Create a fake geometry dash instance so that the cli will work 
+sudo mkdir -p /home/GeometryDashFake/geode/mods
 sudo touch /home/GeometryDashFake/GeometryDash.exe
 
 geode profile add --name GeodeContainer /home/GeometryDashFake/GeometryDash.exe win
@@ -49,3 +50,11 @@ sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
 
 echo "export GEODE_SDK=~/geode" >> ~/.bashrc
+
+# Required dependency for this specific project (CreateTogether). 
+# You can safely - and it is recommended - that you remove these lines if you are copying this devcontainer to another project.
+wget https://github.com/google/flatbuffers/releases/download/v25.12.19/Linux.flatc.binary.clang++-18.zip
+unzip Linux.flatc.binary.clang++-18.zip
+chmod +x flatc
+sudo mv flatc /usr/local/bin/
+rm Linux.flatc.binary.clang++-18.zip
