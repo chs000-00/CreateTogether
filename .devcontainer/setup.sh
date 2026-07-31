@@ -40,6 +40,7 @@ git clone https://github.com/matcool/clang-msvc-sdk.git toolchain
 # Create a fake geometry dash instance so that the cli will work 
 sudo mkdir -p ~/GeometryDashFake/geode/mods
 sudo touch ~/GeometryDashFake/GeometryDash.exe
+sudo chmod -R a+rwx ~/GeometryDashFake # Allow geode to interact with fake geometry dash
 
 geode profile add --name GeodeContainer ~/GeometryDashFake/GeometryDash.exe win
 
