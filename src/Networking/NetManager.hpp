@@ -3,7 +3,7 @@
 #include <Geode/Geode.hpp>
 #include <Networking/NetworkingBackends/HasCapableBackend.hpp>
 #include <Networking/NetworkingBackends/SteamworksBackend.hpp>
-#include <Networking/NetworkingBackends/GNSBackend.hpp>
+#include <Networking/NetworkingBackends/ENetBackend.hpp>
 
 #include <Types/Singleton.hpp>
 

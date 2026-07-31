@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-#include <Networking/NetManager.hpp>
 
 #include <steamworks/steamnetworkingtypes.h>
 #include <steamworks/isteammatchmaking.h>

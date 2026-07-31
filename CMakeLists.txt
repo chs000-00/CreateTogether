@@ -40,4 +40,13 @@ add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 setup_geode_mod(${PROJECT_NAME})
 
 CPMAddPackage("gh:camila314/UIBuilder#main")
+
 target_link_libraries(${PROJECT_NAME} UIBuilder)
+
+CPMAddPackage(
+    URI "gh:zpl-c/enet#8b43b92"
+    OPTIONS "ENET_STATIC 1"
+)
+
+target_link_libraries(${PROJECT_NAME} enet_static)
+
