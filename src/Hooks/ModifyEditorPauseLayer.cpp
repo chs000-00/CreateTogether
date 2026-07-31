@@ -69,10 +69,10 @@ class $modify(ModifiedEditorPauseLayer, EditorPauseLayer) {
     // TODO: There might be an issue with exiting the lobby before you get to confirm exiting on the popup.
 
     void onSaveAndPlay(CCObject* sender) {
-        // FLAlertLayer::create(
-        //     "In Progress",
-        //     "Playtesting is currently being worked at. It will be added in a future update.",
-        //     "Ok"
-        // )->show();
+        FLAlertLayer::create(
+            "In Progress",
+            "Playtesting is currently being worked at. It will be added in a future update.",
+            "Ok"
+        )->show();
     }
 };

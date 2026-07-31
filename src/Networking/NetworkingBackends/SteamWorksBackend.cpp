@@ -1,5 +1,4 @@
 #include "SteamworksBackend.hpp"
-#include <Networking/NetManager.hpp>
 
 void SteamworksBackend::sendMessageToLobby() {
 

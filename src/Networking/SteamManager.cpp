@@ -7,13 +7,17 @@ void SteamManager::onLobbyCreated(LobbyCreated_t* pCallback, bool bIOFailure) {
     if (pCallback->m_eResult == k_EResultOK) {
         log::info("Created Lobby with steamID {}.", pCallback->m_ulSteamIDLobby);
 
-        SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "lobby_type", MOD_LOBBY_ID.c_str());
-        SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "version", MOD_VERSION.c_str());
+        // If you plan on using SteamMatchmaking please set these variables at some point when creating your lobby.
+        SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "lobby_mod_type", MOD_ID.c_str());
+        SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "lobby_mod_version", MOD_VERSION.c_str());
+
+        // Other lobby data related stuff
         SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "level_name", LevelEditorLayer::get()->m_level->m_levelName.c_str());
         SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "host_name", SteamFriends()->GetPersonaName());
-          geode::Notification::create(
-            "You are now hosting a lobby",
-             NotificationIcon::Success);
+
+        geode::Notification::create(
+        "You are now hosting a lobby",
+            NotificationIcon::Success);
 
     } else {
         log::warn("Failed to create lobby with error code {}!", fmt::underlying(pCallback->m_eResult));
@@ -29,7 +33,7 @@ void SteamManager::onNetworkingMessagesSessionRequest(SteamNetworkingMessagesSes
 
 void SteamManager::onGameJoinRequest(GameLobbyJoinRequested_t* pCallback) {
 
-    log::info("There was a lobby join request");
+    log::info("Game join was requested.");
 
     auto data = new GameLobbyJoinRequested_t;
     *data = *pCallback;
@@ -83,8 +87,8 @@ void SteamManager::onLobbyChatUpdateWrapper(LobbyChatUpdate_t* pCallback) {
             switchToScene(CreatorLayer::create());
 
             FLAlertLayer::create(
-                "Host left server",    
-                "The host has left the server!",  
+                "Host stopped hosting",    
+                "The host has stopped hosting the level!",  
                 "Ok"
             )->show();
 

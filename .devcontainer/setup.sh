@@ -12,6 +12,7 @@ sudo apt install -y git clang-19 clang-tools-19 lld-19
 pip install cmake --upgrade --break-system-packages # because for whatever reason it installs an outdated version, ig source repos arent up to date!
 rm llvm.sh
 
+# xwin refuses to use clang19 for whatever reason so we manually define it here
 export CLANG_VER=19
 export LLVM_VER=19
 echo "export export CLANG_VER=19" >> ~/.bashrc
@@ -37,10 +38,10 @@ xwin --arch x86_64 --accept-license splat --include-debug-libs --output splat
 git clone https://github.com/matcool/clang-msvc-sdk.git toolchain
 
 # Create a fake geometry dash instance so that the cli will work 
-sudo mkdir -p /home/GeometryDashFake/geode/mods
-sudo touch /home/GeometryDashFake/GeometryDash.exe
+sudo mkdir -p ~/GeometryDashFake/geode/mods
+sudo touch ~/GeometryDashFake/GeometryDash.exe
 
-geode profile add --name GeodeContainer /home/GeometryDashFake/GeometryDash.exe win
+geode profile add --name GeodeContainer ~/GeometryDashFake/GeometryDash.exe win
 
 geode sdk install ~/geode
 export GEODE_SDK=~/geode

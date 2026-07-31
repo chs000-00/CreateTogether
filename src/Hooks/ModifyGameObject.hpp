@@ -6,8 +6,6 @@
 
 using namespace geode::prelude;
 
-
-
 class $modify(IDGameObject, GameObject) {
     struct Fields {
         // m_veryUniqueID is a unique id assigned to every gameObject. You can access an objects vUID and an object from a vUID via dictionary inside the EditorLayer

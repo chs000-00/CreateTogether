@@ -137,6 +137,6 @@ std::string convertLobbyResultToString(EResult res) {
             return "you have created too many lobbies";
         case k_EResultOK:
         default:
-            return fmt::format("a bad error code was recieved {}", fmt::underlying(res));
+            return fmt::format("a bad error code was recieved ({})", fmt::underlying(res));
     }
 }

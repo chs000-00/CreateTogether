@@ -1,3 +1,9 @@
+# 0.9.0
+
+- Rewrote entire internal codebase
+- Added detection for if the game was ran without steamworks
+- Removed herobrine
+
 # 0.5.3
 
 - Updated internal object labeling (decreased ram usage and message size, I hope)
