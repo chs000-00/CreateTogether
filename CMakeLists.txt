@@ -26,6 +26,10 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_compile_definitions(WIN32_LEAN_AND_MEAN=1)
+endif()
+
 target_include_directories(${PROJECT_NAME}
     PUBLIC include
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
