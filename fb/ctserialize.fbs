@@ -33,7 +33,6 @@ union MessageBody {
 
 table MessageHeader {
     body:MessageBody; 
-    destination:int;
 }
 
 table CreateObjects {
@@ -117,8 +116,8 @@ table ReturnLevelString {
     uniqueIDList:[veryUniqueID];
     levelString:string;
     ctVersion:string;
+    isLevelEmpty:bool;
 }
-
 
 table UpdateFont {
     fontID:uint16;
