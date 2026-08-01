@@ -1,16 +1,15 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-
+#include <Networking/NetManager.hpp>
+#include <Networking/NetworkingBackends/SteamworksBackend.hpp>
+#include <Types/Singleton.hpp>
+#include <Constants.hpp>
+#include <Utills.hpp>
 #include <steamworks/isteamnetworkingmessages.h>
 #include <steamworks/isteamuser.h>
 #include <steamworks/isteammatchmaking.h>
 
-#include <Types/Singleton.hpp>
-#include <Networking/NetManager.hpp>
-#include <Networking/NetworkingBackends/SteamworksBackend.hpp>
-#include <Constants.hpp>
-#include <Utills.hpp>
 
 
 using namespace geode::prelude;

@@ -9,8 +9,8 @@
 // Ensure the included flatbuffers.h is the same version as when this file was
 // generated, otherwise it may not be compatible.
 static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
-              FLATBUFFERS_VERSION_MINOR == 2 &&
-              FLATBUFFERS_VERSION_REVISION == 10,
+              FLATBUFFERS_VERSION_MINOR == 12 &&
+              FLATBUFFERS_VERSION_REVISION == 19,
              "Non-compatible flatbuffers version included");
 
 #include "ccserialization_generated.h"
@@ -84,7 +84,8 @@ struct CursorUpdate FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   uint64_t associatedID() const {
     return GetField<uint64_t>(VT_ASSOCIATEDID, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<CTSerialize::CCPos>(verifier, VT_POSITION, 4) &&
            VerifyField<int8_t>(verifier, VT_STATUS, 1) &&
@@ -184,14 +185,16 @@ inline const CTSerialize::cursor::CursorUpdate *GetSizePrefixedCursorUpdate(cons
   return ::flatbuffers::GetSizePrefixedRoot<CTSerialize::cursor::CursorUpdate>(buf);
 }
 
+template <bool B = false>
 inline bool VerifyCursorUpdateBuffer(
-    ::flatbuffers::Verifier &verifier) {
-  return verifier.VerifyBuffer<CTSerialize::cursor::CursorUpdate>(nullptr);
+    ::flatbuffers::VerifierTemplate<B> &verifier) {
+  return verifier.template VerifyBuffer<CTSerialize::cursor::CursorUpdate>(nullptr);
 }
 
+template <bool B = false>
 inline bool VerifySizePrefixedCursorUpdateBuffer(
-    ::flatbuffers::Verifier &verifier) {
-  return verifier.VerifySizePrefixedBuffer<CTSerialize::cursor::CursorUpdate>(nullptr);
+    ::flatbuffers::VerifierTemplate<B> &verifier) {
+  return verifier.template VerifySizePrefixedBuffer<CTSerialize::cursor::CursorUpdate>(nullptr);
 }
 
 inline void FinishCursorUpdateBuffer(

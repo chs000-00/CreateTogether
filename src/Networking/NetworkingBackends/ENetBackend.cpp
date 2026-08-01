@@ -1,15 +1,26 @@
 #include "ENetBackend.hpp"
 
-void ENetBackend::sendMessageToLobby() {
+void ENetBackend::sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) {
 
 }
 
 void ENetBackend::recvMessages() {
-
+    if (!m_fullyInitialized) {
+        log::debug("ENet polled messages while not fully initialized");
+        return;
+    }
 }
 
+// TODO: Finish!
 ENetBackend::~ENetBackend() {
+    if (!this->m_fullyInitialized) {
+        return;
+    }
+    log::info("Disconecting from ENet backend");
+    enet_peer_disconnect(this->m_peer, 0);
 
+    this->m_peer = nullptr;
+    this->m_fullyInitialized = false;
 }
 
 // C99 my beautiful
@@ -51,6 +62,10 @@ ENetBackend::CreateENetBackendTask create(std::string host, uint16_t port) {
             delete backend;
             return Err("Client timed out");
         }
+
+
+        // todo: finish
+        return Ok(backend);
 
 
     }, fmt::format("CreateTogether CreateENetBackendTask for address {}:{}", host, port));

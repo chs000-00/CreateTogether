@@ -1,15 +1,17 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-#include "HasCapableBackend.hpp"
 #include <Constants.hpp>
+#include "HasCapableBackend.hpp"
 #include <enet.h>
+#include <flatbuffers/flatbuffers.h>
+#include <ctserialize_generated.h>
 
 using namespace geode::prelude;
 
 class ENetBackend : HasCapableBackend {
     public:
-        void sendMessageToLobby() override;
+        void sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) override;
         void recvMessages() override;
 
         void connectToLobby();

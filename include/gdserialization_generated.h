@@ -9,8 +9,8 @@
 // Ensure the included flatbuffers.h is the same version as when this file was
 // generated, otherwise it may not be compatible.
 static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
-              FLATBUFFERS_VERSION_MINOR == 2 &&
-              FLATBUFFERS_VERSION_REVISION == 10,
+              FLATBUFFERS_VERSION_MINOR == 12 &&
+              FLATBUFFERS_VERSION_REVISION == 19,
              "Non-compatible flatbuffers version included");
 
 #include "ccserialization_generated.h"
@@ -393,18 +393,14 @@ struct veryUniqueID FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     return veryUniqueIDTypeTable();
   }
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ASSOCIATEDID = 4,
-    VT_OBJECTID = 6
+    VT_OBJECTID = 4
   };
-  uint64_t associatedID() const {
-    return GetField<uint64_t>(VT_ASSOCIATEDID, 0);
-  }
   uint32_t objectID() const {
     return GetField<uint32_t>(VT_OBJECTID, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint64_t>(verifier, VT_ASSOCIATEDID, 8) &&
            VerifyField<uint32_t>(verifier, VT_OBJECTID, 4) &&
            verifier.EndTable();
   }
@@ -414,9 +410,6 @@ struct veryUniqueIDBuilder {
   typedef veryUniqueID Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_associatedID(uint64_t associatedID) {
-    fbb_.AddElement<uint64_t>(veryUniqueID::VT_ASSOCIATEDID, associatedID, 0);
-  }
   void add_objectID(uint32_t objectID) {
     fbb_.AddElement<uint32_t>(veryUniqueID::VT_OBJECTID, objectID, 0);
   }
@@ -433,10 +426,8 @@ struct veryUniqueIDBuilder {
 
 inline ::flatbuffers::Offset<veryUniqueID> CreateveryUniqueID(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint64_t associatedID = 0,
     uint32_t objectID = 0) {
   veryUniqueIDBuilder builder_(_fbb);
-  builder_.add_associatedID(associatedID);
   builder_.add_objectID(objectID);
   return builder_.Finish();
 }
@@ -489,7 +480,8 @@ struct GDGameObjectMin FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int16_t layer() const {
     return GetField<int16_t>(VT_LAYER, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_UNIQUEID) &&
            verifier.VerifyTable(uniqueID()) &&
@@ -592,7 +584,8 @@ struct MoveEntry FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<CTSerialize::CCPos>(verifier, VT_POSITIONOFFSETKEY, 4) &&
            VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
@@ -671,7 +664,8 @@ struct GDWaveObject FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t cursorGlowColor() const {
     return GetField<int32_t>(VT_CURSORGLOWCOLOR, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_CURSORCOLOR1, 4) &&
            VerifyField<int32_t>(verifier, VT_CURSORCOLOR2, 4) &&
@@ -953,15 +947,13 @@ inline const ::flatbuffers::TypeTable *SettingOptionTypeTypeTable() {
 
 inline const ::flatbuffers::TypeTable *veryUniqueIDTypeTable() {
   static const ::flatbuffers::TypeCode type_codes[] = {
-    { ::flatbuffers::ET_ULONG, 0, -1 },
     { ::flatbuffers::ET_UINT, 0, -1 }
   };
   static const char * const names[] = {
-    "associatedID",
     "objectID"
   };
   static const ::flatbuffers::TypeTable tt = {
-    ::flatbuffers::ST_TABLE, 2, type_codes, nullptr, nullptr, nullptr, names
+    ::flatbuffers::ST_TABLE, 1, type_codes, nullptr, nullptr, nullptr, names
   };
   return &tt;
 }

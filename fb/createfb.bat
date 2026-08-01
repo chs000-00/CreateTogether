@@ -1,1 +1,1 @@
-flatc --cpp ccserialization.fbs ctcursor.fbs ctserialize.fbs gdserialization.fbs -o "../include/" --reflect-names
+flatc  -o "../include/" --cpp ccserialization.fbs ctcursor.fbs ctserialize.fbs gdserialization.fbs --reflect-names

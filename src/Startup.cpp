@@ -1,10 +1,9 @@
 #include <Geode/Geode.hpp>
 #include <Geode/utils/terminate.hpp>
-
-#include <steamworks/isteammatchmaking.h>
 #include <Networking/SteamManager.hpp>
+#include <steamworks/isteammatchmaking.h>
 #include <enet.h>
-// #include "WindowsStartup.hpp"
+// #include "Startup.hpp"
 
 using namespace geode::prelude;
 

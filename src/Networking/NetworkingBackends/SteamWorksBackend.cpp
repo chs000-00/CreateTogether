@@ -1,7 +1,7 @@
 #include "SteamworksBackend.hpp"
 #include <Networking/NetManager.hpp>
 
-void SteamworksBackend::sendMessageToLobby() {
+void SteamworksBackend::sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) {
 
 }
 

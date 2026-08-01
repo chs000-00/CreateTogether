@@ -9,8 +9,8 @@
 // Ensure the included flatbuffers.h is the same version as when this file was
 // generated, otherwise it may not be compatible.
 static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
-              FLATBUFFERS_VERSION_MINOR == 2 &&
-              FLATBUFFERS_VERSION_REVISION == 10,
+              FLATBUFFERS_VERSION_MINOR == 12 &&
+              FLATBUFFERS_VERSION_REVISION == 19,
              "Non-compatible flatbuffers version included");
 
 #include "ccserialization_generated.h"
@@ -44,6 +44,15 @@ struct ModifyObjectsBuilder;
 
 struct ChangeGroupID;
 struct ChangeGroupIDBuilder;
+
+struct ModifyObjectAdvancedOptions;
+struct ModifyObjectAdvancedOptionsBuilder;
+
+struct ModifyObjectBasicOptions;
+struct ModifyObjectBasicOptionsBuilder;
+
+struct ModifyObjectSpecialOptions;
+struct ModifyObjectSpecialOptionsBuilder;
 
 struct ChangeDefaultColor;
 struct ChangeDefaultColorBuilder;
@@ -99,6 +108,12 @@ inline const ::flatbuffers::TypeTable *ModifyObjectsTypeTable();
 
 inline const ::flatbuffers::TypeTable *ChangeGroupIDTypeTable();
 
+inline const ::flatbuffers::TypeTable *ModifyObjectAdvancedOptionsTypeTable();
+
+inline const ::flatbuffers::TypeTable *ModifyObjectBasicOptionsTypeTable();
+
+inline const ::flatbuffers::TypeTable *ModifyObjectSpecialOptionsTypeTable();
+
 inline const ::flatbuffers::TypeTable *ChangeDefaultColorTypeTable();
 
 inline const ::flatbuffers::TypeTable *RequestLevelTypeTable();
@@ -133,23 +148,26 @@ enum MessageBody : uint8_t {
   MessageBody_PasteObjects = 6,
   MessageBody_ModifyObjects = 7,
   MessageBody_ChangeGroupID = 8,
-  MessageBody_ChangeDefaultColor = 9,
-  MessageBody_RequestLevel = 10,
-  MessageBody_ReturnLevelString = 11,
-  MessageBody_UpdateFont = 12,
-  MessageBody_UpdateSong = 13,
-  MessageBody_ChangeArt = 14,
-  MessageBody_SpeedChange = 15,
-  MessageBody_GameModeChange = 16,
-  MessageBody_AdminAction = 17,
-  MessageBody_PlayerCursorData = 18,
-  MessageBody_RequestForCursors = 19,
-  MessageBody_GlobedHandshake = 20,
+  MessageBody_ModifyObjectAdvancedOptions = 9,
+  MessageBody_ModifyObjectBasicOptions = 10,
+  MessageBody_ModifyObjectSpecialOptions = 11,
+  MessageBody_ChangeDefaultColor = 12,
+  MessageBody_RequestLevel = 13,
+  MessageBody_ReturnLevelString = 14,
+  MessageBody_UpdateFont = 15,
+  MessageBody_UpdateSong = 16,
+  MessageBody_ChangeArt = 17,
+  MessageBody_SpeedChange = 18,
+  MessageBody_GameModeChange = 19,
+  MessageBody_AdminAction = 20,
+  MessageBody_PlayerCursorData = 21,
+  MessageBody_RequestForCursors = 22,
+  MessageBody_GlobedHandshake = 23,
   MessageBody_MIN = MessageBody_NONE,
   MessageBody_MAX = MessageBody_GlobedHandshake
 };
 
-inline const MessageBody (&EnumValuesMessageBody())[21] {
+inline const MessageBody (&EnumValuesMessageBody())[24] {
   static const MessageBody values[] = {
     MessageBody_NONE,
     MessageBody_CreateObjects,
@@ -160,6 +178,9 @@ inline const MessageBody (&EnumValuesMessageBody())[21] {
     MessageBody_PasteObjects,
     MessageBody_ModifyObjects,
     MessageBody_ChangeGroupID,
+    MessageBody_ModifyObjectAdvancedOptions,
+    MessageBody_ModifyObjectBasicOptions,
+    MessageBody_ModifyObjectSpecialOptions,
     MessageBody_ChangeDefaultColor,
     MessageBody_RequestLevel,
     MessageBody_ReturnLevelString,
@@ -177,7 +198,7 @@ inline const MessageBody (&EnumValuesMessageBody())[21] {
 }
 
 inline const char * const *EnumNamesMessageBody() {
-  static const char * const names[22] = {
+  static const char * const names[25] = {
     "NONE",
     "CreateObjects",
     "DeleteObjects",
@@ -187,6 +208,9 @@ inline const char * const *EnumNamesMessageBody() {
     "PasteObjects",
     "ModifyObjects",
     "ChangeGroupID",
+    "ModifyObjectAdvancedOptions",
+    "ModifyObjectBasicOptions",
+    "ModifyObjectSpecialOptions",
     "ChangeDefaultColor",
     "RequestLevel",
     "ReturnLevelString",
@@ -246,6 +270,18 @@ template<> struct MessageBodyTraits<CTSerialize::ChangeGroupID> {
   static const MessageBody enum_value = MessageBody_ChangeGroupID;
 };
 
+template<> struct MessageBodyTraits<CTSerialize::ModifyObjectAdvancedOptions> {
+  static const MessageBody enum_value = MessageBody_ModifyObjectAdvancedOptions;
+};
+
+template<> struct MessageBodyTraits<CTSerialize::ModifyObjectBasicOptions> {
+  static const MessageBody enum_value = MessageBody_ModifyObjectBasicOptions;
+};
+
+template<> struct MessageBodyTraits<CTSerialize::ModifyObjectSpecialOptions> {
+  static const MessageBody enum_value = MessageBody_ModifyObjectSpecialOptions;
+};
+
 template<> struct MessageBodyTraits<CTSerialize::ChangeDefaultColor> {
   static const MessageBody enum_value = MessageBody_ChangeDefaultColor;
 };
@@ -294,8 +330,10 @@ template<> struct MessageBodyTraits<CTSerialize::GlobedHandshake> {
   static const MessageBody enum_value = MessageBody_GlobedHandshake;
 };
 
-bool VerifyMessageBody(::flatbuffers::Verifier &verifier, const void *obj, MessageBody type);
-bool VerifyMessageBodyVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
+template <bool B = false>
+bool VerifyMessageBody(::flatbuffers::VerifierTemplate<B> &verifier, const void *obj, MessageBody type);
+template <bool B = false>
+bool VerifyMessageBodyVector(::flatbuffers::VerifierTemplate<B> &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
 enum AdminActions : int8_t {
   AdminActions_Invalid = 0,
@@ -373,6 +411,15 @@ struct MessageHeader FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const CTSerialize::ChangeGroupID *body_as_ChangeGroupID() const {
     return body_type() == CTSerialize::MessageBody_ChangeGroupID ? static_cast<const CTSerialize::ChangeGroupID *>(body()) : nullptr;
   }
+  const CTSerialize::ModifyObjectAdvancedOptions *body_as_ModifyObjectAdvancedOptions() const {
+    return body_type() == CTSerialize::MessageBody_ModifyObjectAdvancedOptions ? static_cast<const CTSerialize::ModifyObjectAdvancedOptions *>(body()) : nullptr;
+  }
+  const CTSerialize::ModifyObjectBasicOptions *body_as_ModifyObjectBasicOptions() const {
+    return body_type() == CTSerialize::MessageBody_ModifyObjectBasicOptions ? static_cast<const CTSerialize::ModifyObjectBasicOptions *>(body()) : nullptr;
+  }
+  const CTSerialize::ModifyObjectSpecialOptions *body_as_ModifyObjectSpecialOptions() const {
+    return body_type() == CTSerialize::MessageBody_ModifyObjectSpecialOptions ? static_cast<const CTSerialize::ModifyObjectSpecialOptions *>(body()) : nullptr;
+  }
   const CTSerialize::ChangeDefaultColor *body_as_ChangeDefaultColor() const {
     return body_type() == CTSerialize::MessageBody_ChangeDefaultColor ? static_cast<const CTSerialize::ChangeDefaultColor *>(body()) : nullptr;
   }
@@ -409,7 +456,8 @@ struct MessageHeader FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const CTSerialize::GlobedHandshake *body_as_GlobedHandshake() const {
     return body_type() == CTSerialize::MessageBody_GlobedHandshake ? static_cast<const CTSerialize::GlobedHandshake *>(body()) : nullptr;
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_BODY_TYPE, 1) &&
            VerifyOffset(verifier, VT_BODY) &&
@@ -448,6 +496,18 @@ template<> inline const CTSerialize::ModifyObjects *MessageHeader::body_as<CTSer
 
 template<> inline const CTSerialize::ChangeGroupID *MessageHeader::body_as<CTSerialize::ChangeGroupID>() const {
   return body_as_ChangeGroupID();
+}
+
+template<> inline const CTSerialize::ModifyObjectAdvancedOptions *MessageHeader::body_as<CTSerialize::ModifyObjectAdvancedOptions>() const {
+  return body_as_ModifyObjectAdvancedOptions();
+}
+
+template<> inline const CTSerialize::ModifyObjectBasicOptions *MessageHeader::body_as<CTSerialize::ModifyObjectBasicOptions>() const {
+  return body_as_ModifyObjectBasicOptions();
+}
+
+template<> inline const CTSerialize::ModifyObjectSpecialOptions *MessageHeader::body_as<CTSerialize::ModifyObjectSpecialOptions>() const {
+  return body_as_ModifyObjectSpecialOptions();
 }
 
 template<> inline const CTSerialize::ChangeDefaultColor *MessageHeader::body_as<CTSerialize::ChangeDefaultColor>() const {
@@ -540,7 +600,8 @@ struct CreateObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const CTSerialize::GDGameObjectMin *obj() const {
     return GetPointer<const CTSerialize::GDGameObjectMin *>(VT_OBJ);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_OBJ) &&
            verifier.VerifyTable(obj()) &&
@@ -585,7 +646,8 @@ struct DeleteObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
            verifier.VerifyVector(uniqueIDList()) &&
@@ -640,7 +702,8 @@ struct MoveObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::MoveEntry>> *moveEntires() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::MoveEntry>> *>(VT_MOVEENTIRES);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_MOVEENTIRES) &&
            verifier.VerifyVector(moveEntires()) &&
@@ -699,7 +762,8 @@ struct LevelSettingChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
   ::flatbuffers::Optional<int32_t> spawnGroup() const {
     return GetOptional<int32_t, int32_t>(VT_SPAWNGROUP);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint16_t>(verifier, VT_SETTINGID, 2) &&
            VerifyField<int32_t>(verifier, VT_SPAWNGROUP, 4) &&
@@ -757,7 +821,8 @@ struct RotateObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<float>(verifier, VT_ROTATION, 4) &&
            VerifyField<CTSerialize::CCPos>(verifier, VT_ANCHOR, 4) &&
@@ -832,7 +897,8 @@ struct PasteObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::String *pastedString() const {
     return GetPointer<const ::flatbuffers::String *>(VT_PASTEDSTRING);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
            verifier.VerifyVector(uniqueIDList()) &&
@@ -901,7 +967,8 @@ struct ModifyObjects FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::String *pastedString() const {
     return GetPointer<const ::flatbuffers::String *>(VT_PASTEDSTRING);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
            verifier.VerifyVector(uniqueIDList()) &&
@@ -974,7 +1041,8 @@ struct ChangeGroupID FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint16_t>(verifier, VT_GROUPID, 2) &&
            VerifyField<uint8_t>(verifier, VT_ISADDING, 1) &&
@@ -1034,6 +1102,214 @@ inline ::flatbuffers::Offset<ChangeGroupID> CreateChangeGroupIDDirect(
       uniqueIDList__);
 }
 
+struct ModifyObjectAdvancedOptions FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ModifyObjectAdvancedOptionsBuilder Builder;
+  static const ::flatbuffers::TypeTable *MiniReflectTypeTable() {
+    return ModifyObjectAdvancedOptionsTypeTable();
+  }
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UNIQUEIDLIST = 4
+  };
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
+           verifier.VerifyVector(uniqueIDList()) &&
+           verifier.VerifyVectorOfTables(uniqueIDList()) &&
+           verifier.EndTable();
+  }
+};
+
+struct ModifyObjectAdvancedOptionsBuilder {
+  typedef ModifyObjectAdvancedOptions Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uniqueIDList(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList) {
+    fbb_.AddOffset(ModifyObjectAdvancedOptions::VT_UNIQUEIDLIST, uniqueIDList);
+  }
+  explicit ModifyObjectAdvancedOptionsBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ModifyObjectAdvancedOptions> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ModifyObjectAdvancedOptions>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ModifyObjectAdvancedOptions> CreateModifyObjectAdvancedOptions(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList = 0) {
+  ModifyObjectAdvancedOptionsBuilder builder_(_fbb);
+  builder_.add_uniqueIDList(uniqueIDList);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<ModifyObjectAdvancedOptions> CreateModifyObjectAdvancedOptionsDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList = nullptr) {
+  auto uniqueIDList__ = uniqueIDList ? _fbb.CreateVector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>(*uniqueIDList) : 0;
+  return CTSerialize::CreateModifyObjectAdvancedOptions(
+      _fbb,
+      uniqueIDList__);
+}
+
+struct ModifyObjectBasicOptions FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ModifyObjectBasicOptionsBuilder Builder;
+  static const ::flatbuffers::TypeTable *MiniReflectTypeTable() {
+    return ModifyObjectBasicOptionsTypeTable();
+  }
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UNIQUEIDLIST = 4,
+    VT_NEWTEXT = 6,
+    VT_NEWGROUP1COLOR = 8
+  };
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
+  }
+  const ::flatbuffers::String *newText() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NEWTEXT);
+  }
+  uint32_t newGroup1Color() const {
+    return GetField<uint32_t>(VT_NEWGROUP1COLOR, 0);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
+           verifier.VerifyVector(uniqueIDList()) &&
+           verifier.VerifyVectorOfTables(uniqueIDList()) &&
+           VerifyOffset(verifier, VT_NEWTEXT) &&
+           verifier.VerifyString(newText()) &&
+           VerifyField<uint32_t>(verifier, VT_NEWGROUP1COLOR, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct ModifyObjectBasicOptionsBuilder {
+  typedef ModifyObjectBasicOptions Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uniqueIDList(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList) {
+    fbb_.AddOffset(ModifyObjectBasicOptions::VT_UNIQUEIDLIST, uniqueIDList);
+  }
+  void add_newText(::flatbuffers::Offset<::flatbuffers::String> newText) {
+    fbb_.AddOffset(ModifyObjectBasicOptions::VT_NEWTEXT, newText);
+  }
+  void add_newGroup1Color(uint32_t newGroup1Color) {
+    fbb_.AddElement<uint32_t>(ModifyObjectBasicOptions::VT_NEWGROUP1COLOR, newGroup1Color, 0);
+  }
+  explicit ModifyObjectBasicOptionsBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ModifyObjectBasicOptions> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ModifyObjectBasicOptions>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ModifyObjectBasicOptions> CreateModifyObjectBasicOptions(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> newText = 0,
+    uint32_t newGroup1Color = 0) {
+  ModifyObjectBasicOptionsBuilder builder_(_fbb);
+  builder_.add_newGroup1Color(newGroup1Color);
+  builder_.add_newText(newText);
+  builder_.add_uniqueIDList(uniqueIDList);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<ModifyObjectBasicOptions> CreateModifyObjectBasicOptionsDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList = nullptr,
+    const char *newText = nullptr,
+    uint32_t newGroup1Color = 0) {
+  auto uniqueIDList__ = uniqueIDList ? _fbb.CreateVector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>(*uniqueIDList) : 0;
+  auto newText__ = newText ? _fbb.CreateString(newText) : 0;
+  return CTSerialize::CreateModifyObjectBasicOptions(
+      _fbb,
+      uniqueIDList__,
+      newText__,
+      newGroup1Color);
+}
+
+struct ModifyObjectSpecialOptions FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef ModifyObjectSpecialOptionsBuilder Builder;
+  static const ::flatbuffers::TypeTable *MiniReflectTypeTable() {
+    return ModifyObjectSpecialOptionsTypeTable();
+  }
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UNIQUEIDLIST = 4,
+    VT_PASTEDSTRING = 6
+  };
+  const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
+    return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
+  }
+  const ::flatbuffers::String *pastedString() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_PASTEDSTRING);
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
+           verifier.VerifyVector(uniqueIDList()) &&
+           verifier.VerifyVectorOfTables(uniqueIDList()) &&
+           VerifyOffset(verifier, VT_PASTEDSTRING) &&
+           verifier.VerifyString(pastedString()) &&
+           verifier.EndTable();
+  }
+};
+
+struct ModifyObjectSpecialOptionsBuilder {
+  typedef ModifyObjectSpecialOptions Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_uniqueIDList(::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList) {
+    fbb_.AddOffset(ModifyObjectSpecialOptions::VT_UNIQUEIDLIST, uniqueIDList);
+  }
+  void add_pastedString(::flatbuffers::Offset<::flatbuffers::String> pastedString) {
+    fbb_.AddOffset(ModifyObjectSpecialOptions::VT_PASTEDSTRING, pastedString);
+  }
+  explicit ModifyObjectSpecialOptionsBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<ModifyObjectSpecialOptions> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<ModifyObjectSpecialOptions>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<ModifyObjectSpecialOptions> CreateModifyObjectSpecialOptions(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> pastedString = 0) {
+  ModifyObjectSpecialOptionsBuilder builder_(_fbb);
+  builder_.add_pastedString(pastedString);
+  builder_.add_uniqueIDList(uniqueIDList);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<ModifyObjectSpecialOptions> CreateModifyObjectSpecialOptionsDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList = nullptr,
+    const char *pastedString = nullptr) {
+  auto uniqueIDList__ = uniqueIDList ? _fbb.CreateVector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>(*uniqueIDList) : 0;
+  auto pastedString__ = pastedString ? _fbb.CreateString(pastedString) : 0;
+  return CTSerialize::CreateModifyObjectSpecialOptions(
+      _fbb,
+      uniqueIDList__,
+      pastedString__);
+}
+
 struct ChangeDefaultColor FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef ChangeDefaultColorBuilder Builder;
   static const ::flatbuffers::TypeTable *MiniReflectTypeTable() {
@@ -1069,7 +1345,8 @@ struct ChangeDefaultColor FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table
   ::flatbuffers::Optional<int32_t> copyColorID() const {
     return GetOptional<int32_t, int32_t>(VT_COPYCOLORID);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_COLORID, 4) &&
            VerifyField<CTSerialize::CCColor3B>(verifier, VT_CURRENTCOLOR, 1) &&
@@ -1143,7 +1420,8 @@ struct RequestLevel FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   static const ::flatbuffers::TypeTable *MiniReflectTypeTable() {
     return RequestLevelTypeTable();
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
@@ -1178,7 +1456,8 @@ struct ReturnLevelString FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_UNIQUEIDLIST = 4,
     VT_LEVELSTRING = 6,
-    VT_CTVERSION = 8
+    VT_CTVERSION = 8,
+    VT_ISLEVELEMPTY = 10
   };
   const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList() const {
     return GetPointer<const ::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *>(VT_UNIQUEIDLIST);
@@ -1189,7 +1468,11 @@ struct ReturnLevelString FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   const ::flatbuffers::String *ctVersion() const {
     return GetPointer<const ::flatbuffers::String *>(VT_CTVERSION);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool isLevelEmpty() const {
+    return GetField<uint8_t>(VT_ISLEVELEMPTY, 0) != 0;
+  }
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_UNIQUEIDLIST) &&
            verifier.VerifyVector(uniqueIDList()) &&
@@ -1198,6 +1481,7 @@ struct ReturnLevelString FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
            verifier.VerifyString(levelString()) &&
            VerifyOffset(verifier, VT_CTVERSION) &&
            verifier.VerifyString(ctVersion()) &&
+           VerifyField<uint8_t>(verifier, VT_ISLEVELEMPTY, 1) &&
            verifier.EndTable();
   }
 };
@@ -1215,6 +1499,9 @@ struct ReturnLevelStringBuilder {
   void add_ctVersion(::flatbuffers::Offset<::flatbuffers::String> ctVersion) {
     fbb_.AddOffset(ReturnLevelString::VT_CTVERSION, ctVersion);
   }
+  void add_isLevelEmpty(bool isLevelEmpty) {
+    fbb_.AddElement<uint8_t>(ReturnLevelString::VT_ISLEVELEMPTY, static_cast<uint8_t>(isLevelEmpty), 0);
+  }
   explicit ReturnLevelStringBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -1230,11 +1517,13 @@ inline ::flatbuffers::Offset<ReturnLevelString> CreateReturnLevelString(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     ::flatbuffers::Offset<::flatbuffers::Vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>> uniqueIDList = 0,
     ::flatbuffers::Offset<::flatbuffers::String> levelString = 0,
-    ::flatbuffers::Offset<::flatbuffers::String> ctVersion = 0) {
+    ::flatbuffers::Offset<::flatbuffers::String> ctVersion = 0,
+    bool isLevelEmpty = false) {
   ReturnLevelStringBuilder builder_(_fbb);
   builder_.add_ctVersion(ctVersion);
   builder_.add_levelString(levelString);
   builder_.add_uniqueIDList(uniqueIDList);
+  builder_.add_isLevelEmpty(isLevelEmpty);
   return builder_.Finish();
 }
 
@@ -1242,7 +1531,8 @@ inline ::flatbuffers::Offset<ReturnLevelString> CreateReturnLevelStringDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
     const std::vector<::flatbuffers::Offset<CTSerialize::veryUniqueID>> *uniqueIDList = nullptr,
     const char *levelString = nullptr,
-    const char *ctVersion = nullptr) {
+    const char *ctVersion = nullptr,
+    bool isLevelEmpty = false) {
   auto uniqueIDList__ = uniqueIDList ? _fbb.CreateVector<::flatbuffers::Offset<CTSerialize::veryUniqueID>>(*uniqueIDList) : 0;
   auto levelString__ = levelString ? _fbb.CreateString(levelString) : 0;
   auto ctVersion__ = ctVersion ? _fbb.CreateString(ctVersion) : 0;
@@ -1250,7 +1540,8 @@ inline ::flatbuffers::Offset<ReturnLevelString> CreateReturnLevelStringDirect(
       _fbb,
       uniqueIDList__,
       levelString__,
-      ctVersion__);
+      ctVersion__,
+      isLevelEmpty);
 }
 
 struct UpdateFont FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -1264,7 +1555,8 @@ struct UpdateFont FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   uint16_t fontID() const {
     return GetField<uint16_t>(VT_FONTID, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint16_t>(verifier, VT_FONTID, 2) &&
            verifier.EndTable();
@@ -1308,7 +1600,8 @@ struct UpdateSong FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   uint64_t songID() const {
     return GetField<uint64_t>(VT_SONGID, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint64_t>(verifier, VT_SONGID, 8) &&
            verifier.EndTable();
@@ -1360,7 +1653,8 @@ struct ChangeArt FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t line() const {
     return GetField<int32_t>(VT_LINE, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int8_t>(verifier, VT_ARTTYPE, 1) &&
            VerifyField<int32_t>(verifier, VT_ARTID, 4) &&
@@ -1416,7 +1710,8 @@ struct SpeedChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   CTSerialize::Speed speed() const {
     return static_cast<CTSerialize::Speed>(GetField<int8_t>(VT_SPEED, 0));
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int8_t>(verifier, VT_SPEED, 1) &&
            verifier.EndTable();
@@ -1460,7 +1755,8 @@ struct GameModeChange FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   uint8_t gameMode() const {
     return GetField<uint8_t>(VT_GAMEMODE, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_GAMEMODE, 1) &&
            verifier.EndTable();
@@ -1516,7 +1812,8 @@ struct AdminAction FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const ::flatbuffers::String *reason() const {
     return GetPointer<const ::flatbuffers::String *>(VT_REASON);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int8_t>(verifier, VT_ACTION, 1) &&
            VerifyField<uint64_t>(verifier, VT_USERID, 8) &&
@@ -1594,7 +1891,8 @@ struct PlayerCursorData FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const CTSerialize::GDWaveObject *playerWave() const {
     return GetPointer<const CTSerialize::GDWaveObject *>(VT_PLAYERWAVE);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_PLAYERWAVE) &&
            verifier.VerifyTable(playerWave()) &&
@@ -1633,7 +1931,8 @@ struct RequestForCursors FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   static const ::flatbuffers::TypeTable *MiniReflectTypeTable() {
     return RequestForCursorsTypeTable();
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
@@ -1671,7 +1970,8 @@ struct GlobedHandshake FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t accountID() const {
     return GetField<int32_t>(VT_ACCOUNTID, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  template <bool B = false>
+  bool Verify(::flatbuffers::VerifierTemplate<B> &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<int32_t>(verifier, VT_ACCOUNTID, 4) &&
            verifier.EndTable();
@@ -1704,7 +2004,8 @@ inline ::flatbuffers::Offset<GlobedHandshake> CreateGlobedHandshake(
   return builder_.Finish();
 }
 
-inline bool VerifyMessageBody(::flatbuffers::Verifier &verifier, const void *obj, MessageBody type) {
+template <bool B>
+inline bool VerifyMessageBody(::flatbuffers::VerifierTemplate<B> &verifier, const void *obj, MessageBody type) {
   switch (type) {
     case MessageBody_NONE: {
       return true;
@@ -1739,6 +2040,18 @@ inline bool VerifyMessageBody(::flatbuffers::Verifier &verifier, const void *obj
     }
     case MessageBody_ChangeGroupID: {
       auto ptr = reinterpret_cast<const CTSerialize::ChangeGroupID *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case MessageBody_ModifyObjectAdvancedOptions: {
+      auto ptr = reinterpret_cast<const CTSerialize::ModifyObjectAdvancedOptions *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case MessageBody_ModifyObjectBasicOptions: {
+      auto ptr = reinterpret_cast<const CTSerialize::ModifyObjectBasicOptions *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case MessageBody_ModifyObjectSpecialOptions: {
+      auto ptr = reinterpret_cast<const CTSerialize::ModifyObjectSpecialOptions *>(obj);
       return verifier.VerifyTable(ptr);
     }
     case MessageBody_ChangeDefaultColor: {
@@ -1793,7 +2106,8 @@ inline bool VerifyMessageBody(::flatbuffers::Verifier &verifier, const void *obj
   }
 }
 
-inline bool VerifyMessageBodyVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types) {
+template <bool B>
+inline bool VerifyMessageBodyVector(::flatbuffers::VerifierTemplate<B> &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types) {
   if (!values || !types) return !values && !types;
   if (values->size() != types->size()) return false;
   for (::flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
@@ -1827,7 +2141,10 @@ inline const ::flatbuffers::TypeTable *MessageBodyTypeTable() {
     { ::flatbuffers::ET_SEQUENCE, 0, 16 },
     { ::flatbuffers::ET_SEQUENCE, 0, 17 },
     { ::flatbuffers::ET_SEQUENCE, 0, 18 },
-    { ::flatbuffers::ET_SEQUENCE, 0, 19 }
+    { ::flatbuffers::ET_SEQUENCE, 0, 19 },
+    { ::flatbuffers::ET_SEQUENCE, 0, 20 },
+    { ::flatbuffers::ET_SEQUENCE, 0, 21 },
+    { ::flatbuffers::ET_SEQUENCE, 0, 22 }
   };
   static const ::flatbuffers::TypeFunction type_refs[] = {
     CTSerialize::CreateObjectsTypeTable,
@@ -1838,6 +2155,9 @@ inline const ::flatbuffers::TypeTable *MessageBodyTypeTable() {
     CTSerialize::PasteObjectsTypeTable,
     CTSerialize::ModifyObjectsTypeTable,
     CTSerialize::ChangeGroupIDTypeTable,
+    CTSerialize::ModifyObjectAdvancedOptionsTypeTable,
+    CTSerialize::ModifyObjectBasicOptionsTypeTable,
+    CTSerialize::ModifyObjectSpecialOptionsTypeTable,
     CTSerialize::ChangeDefaultColorTypeTable,
     CTSerialize::RequestLevelTypeTable,
     CTSerialize::ReturnLevelStringTypeTable,
@@ -1861,6 +2181,9 @@ inline const ::flatbuffers::TypeTable *MessageBodyTypeTable() {
     "PasteObjects",
     "ModifyObjects",
     "ChangeGroupID",
+    "ModifyObjectAdvancedOptions",
+    "ModifyObjectBasicOptions",
+    "ModifyObjectSpecialOptions",
     "ChangeDefaultColor",
     "RequestLevel",
     "ReturnLevelString",
@@ -1875,7 +2198,7 @@ inline const ::flatbuffers::TypeTable *MessageBodyTypeTable() {
     "GlobedHandshake"
   };
   static const ::flatbuffers::TypeTable tt = {
-    ::flatbuffers::ST_UNION, 21, type_codes, type_refs, nullptr, nullptr, names
+    ::flatbuffers::ST_UNION, 24, type_codes, type_refs, nullptr, nullptr, names
   };
   return &tt;
 }
@@ -2060,6 +2383,60 @@ inline const ::flatbuffers::TypeTable *ChangeGroupIDTypeTable() {
   return &tt;
 }
 
+inline const ::flatbuffers::TypeTable *ModifyObjectAdvancedOptionsTypeTable() {
+  static const ::flatbuffers::TypeCode type_codes[] = {
+    { ::flatbuffers::ET_SEQUENCE, 1, 0 }
+  };
+  static const ::flatbuffers::TypeFunction type_refs[] = {
+    CTSerialize::veryUniqueIDTypeTable
+  };
+  static const char * const names[] = {
+    "uniqueIDList"
+  };
+  static const ::flatbuffers::TypeTable tt = {
+    ::flatbuffers::ST_TABLE, 1, type_codes, type_refs, nullptr, nullptr, names
+  };
+  return &tt;
+}
+
+inline const ::flatbuffers::TypeTable *ModifyObjectBasicOptionsTypeTable() {
+  static const ::flatbuffers::TypeCode type_codes[] = {
+    { ::flatbuffers::ET_SEQUENCE, 1, 0 },
+    { ::flatbuffers::ET_STRING, 0, -1 },
+    { ::flatbuffers::ET_UINT, 0, -1 }
+  };
+  static const ::flatbuffers::TypeFunction type_refs[] = {
+    CTSerialize::veryUniqueIDTypeTable
+  };
+  static const char * const names[] = {
+    "uniqueIDList",
+    "newText",
+    "newGroup1Color"
+  };
+  static const ::flatbuffers::TypeTable tt = {
+    ::flatbuffers::ST_TABLE, 3, type_codes, type_refs, nullptr, nullptr, names
+  };
+  return &tt;
+}
+
+inline const ::flatbuffers::TypeTable *ModifyObjectSpecialOptionsTypeTable() {
+  static const ::flatbuffers::TypeCode type_codes[] = {
+    { ::flatbuffers::ET_SEQUENCE, 1, 0 },
+    { ::flatbuffers::ET_STRING, 0, -1 }
+  };
+  static const ::flatbuffers::TypeFunction type_refs[] = {
+    CTSerialize::veryUniqueIDTypeTable
+  };
+  static const char * const names[] = {
+    "uniqueIDList",
+    "pastedString"
+  };
+  static const ::flatbuffers::TypeTable tt = {
+    ::flatbuffers::ST_TABLE, 2, type_codes, type_refs, nullptr, nullptr, names
+  };
+  return &tt;
+}
+
 inline const ::flatbuffers::TypeTable *ChangeDefaultColorTypeTable() {
   static const ::flatbuffers::TypeCode type_codes[] = {
     { ::flatbuffers::ET_INT, 0, -1 },
@@ -2100,7 +2477,8 @@ inline const ::flatbuffers::TypeTable *ReturnLevelStringTypeTable() {
   static const ::flatbuffers::TypeCode type_codes[] = {
     { ::flatbuffers::ET_SEQUENCE, 1, 0 },
     { ::flatbuffers::ET_STRING, 0, -1 },
-    { ::flatbuffers::ET_STRING, 0, -1 }
+    { ::flatbuffers::ET_STRING, 0, -1 },
+    { ::flatbuffers::ET_BOOL, 0, -1 }
   };
   static const ::flatbuffers::TypeFunction type_refs[] = {
     CTSerialize::veryUniqueIDTypeTable
@@ -2108,10 +2486,11 @@ inline const ::flatbuffers::TypeTable *ReturnLevelStringTypeTable() {
   static const char * const names[] = {
     "uniqueIDList",
     "levelString",
-    "ctVersion"
+    "ctVersion",
+    "isLevelEmpty"
   };
   static const ::flatbuffers::TypeTable tt = {
-    ::flatbuffers::ST_TABLE, 3, type_codes, type_refs, nullptr, nullptr, names
+    ::flatbuffers::ST_TABLE, 4, type_codes, type_refs, nullptr, nullptr, names
   };
   return &tt;
 }
@@ -2257,14 +2636,16 @@ inline const CTSerialize::MessageHeader *GetSizePrefixedMessageHeader(const void
   return ::flatbuffers::GetSizePrefixedRoot<CTSerialize::MessageHeader>(buf);
 }
 
+template <bool B = false>
 inline bool VerifyMessageHeaderBuffer(
-    ::flatbuffers::Verifier &verifier) {
-  return verifier.VerifyBuffer<CTSerialize::MessageHeader>(nullptr);
+    ::flatbuffers::VerifierTemplate<B> &verifier) {
+  return verifier.template VerifyBuffer<CTSerialize::MessageHeader>(nullptr);
 }
 
+template <bool B = false>
 inline bool VerifySizePrefixedMessageHeaderBuffer(
-    ::flatbuffers::Verifier &verifier) {
-  return verifier.VerifySizePrefixedBuffer<CTSerialize::MessageHeader>(nullptr);
+    ::flatbuffers::VerifierTemplate<B> &verifier) {
+  return verifier.template VerifySizePrefixedBuffer<CTSerialize::MessageHeader>(nullptr);
 }
 
 inline void FinishMessageHeaderBuffer(

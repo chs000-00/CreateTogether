@@ -12,3 +12,11 @@ void NetManager::update() {
         // this->flushDictionaries();
     }
 }
+
+bool NetManager::getIsInLobby() {
+    return NetManager::get()->m_isInLobby;
+}
+
+bool NetManager::getWasDataSent() {
+    return NetManager::get()->m_wasDataSent;
+}

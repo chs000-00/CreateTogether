@@ -1,18 +1,18 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
-
+#include <Constants.hpp>
+#include "HasCapableBackend.hpp"
 #include <steamworks/steamnetworkingtypes.h>
 #include <steamworks/isteammatchmaking.h>
-
-#include "HasCapableBackend.hpp"
-#include <Constants.hpp>
+#include <flatbuffers/flatbuffers.h>
+#include <ctserialize_generated.h>
 
 using namespace geode::prelude;
 
 class SteamworksBackend : HasCapableBackend {
     public:
-        void sendMessageToLobby() override;
+        void sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) override;
         void recvMessages() override;
 
         void connectToLobby();

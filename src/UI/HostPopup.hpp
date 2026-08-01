@@ -3,9 +3,8 @@
 #include <Geode/ui/Button.hpp>
 #include <Geode/utils/ColorProvider.hpp>
 #include <Geode/utils/random.hpp>
-#include <UIBuilder.hpp>
-
 #include <Networking/NetManager.hpp>
+#include <UIBuilder.hpp>
 
 using namespace geode::prelude;
 

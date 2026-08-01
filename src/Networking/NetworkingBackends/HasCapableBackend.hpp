@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
+#include <flatbuffers/flatbuffers.h>
+#include <ctserialize_generated.h>
 
 using namespace geode::prelude;
 
@@ -21,7 +23,9 @@ using namespace geode::prelude;
 
 class HasCapableBackend {
     public:
-        virtual void sendMessageToLobby() = 0;
+        // Sends an entire message to everyone in the lobby
+        virtual void sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) = 0;
+
         virtual void recvMessages() = 0;
 
         // When leaving the lobby the dtor gets called.

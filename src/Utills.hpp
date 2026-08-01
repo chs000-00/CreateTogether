@@ -3,7 +3,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/binding/GJBaseGameLayer.hpp>
 #include <Geode/binding/LevelSettingsObject.hpp>
-
 #include <steamworks/steamnetworkingtypes.h>
 
 using namespace geode::prelude;
