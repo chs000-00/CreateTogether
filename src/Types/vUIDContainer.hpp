@@ -10,7 +10,7 @@ struct vUIDContainer {
     uint32_t objectID;
     
     // Todo: test
-    flatbuffers::Offset<CTSerialize::veryUniqueID> createOffset(flatbuffers::FlatBufferBuilder builder) {
+    flatbuffers::Offset<CTSerialize::veryUniqueID> createOffset(flatbuffers::FlatBufferBuilder& builder) {
         // return CTSerialize::CreateveryUniqueID(builder, this->associatedID, this->objectID);
         return CTSerialize::CreateveryUniqueID(builder, this->objectID);
     }

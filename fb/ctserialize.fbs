@@ -46,7 +46,7 @@ table DeleteObjects {
 // TODO: Implement a hash-table like optimization for move objects, with posOff being the key and a list of vUID's being the
 // value. I Could also make a list of a table [MoveMerge] which has a vUID and a position offset
 table MoveObjects {
-    moveEntires:[MoveEntry];
+    moveEntries:[MoveEntry];
 }
 
 table LevelSettingChange {
