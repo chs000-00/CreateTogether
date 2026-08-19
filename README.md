@@ -1,4 +1,4 @@
-INDEX STAFF: [NO GENAI WAS USED IN THIS PROJECT](https://github.com/chs000-00/CreateTogether/blob/8df1a5b68bf683f522bce4089846ce79edd876c8/INDEX_STAFF_READ_ME.md)
+INDEX STAFF: [NO GENAI WAS USED IN THIS PROJECT](https://github.com/chs000-00/CreateTogether/blob/v2/INDEX_STAFF_READ_ME.md)
 
 # Create Together
 This is where he COOKS a mod.
