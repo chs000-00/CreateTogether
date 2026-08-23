@@ -39,8 +39,6 @@ $execute {
 
         geode::utils::terminate("enet failed to initialize");
     }
-
-    SteamMatchmaking()->CreateLobby(k_ELobbyTypePublic, 16);
     // _Init = (Init_t)GetProcAddress(steam, "SteamAPI_ISteamInput_Init");
     // _RunFrame = (RunFrame_t)GetProcAddress(steam, "SteamAPI_ISteamInput_RunFrame");
 }
