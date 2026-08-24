@@ -6,6 +6,7 @@
 #include <steamworks/steamnetworkingtypes.h>
 #include <steamworks/isteammatchmaking.h>
 #include <flatbuffers/flatbuffers.h>
+#include <flatbuffers/minireflect.h>
 #include <ctserialize_generated.h>
 
 using namespace geode::prelude;

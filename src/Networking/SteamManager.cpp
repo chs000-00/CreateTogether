@@ -87,23 +87,11 @@ void SteamManager::onLobbyChatUpdateWrapper(LobbyChatUpdate_t* pCallback) {
 
     if (pCallback->m_ulSteamIDUserChanged == properBackend->m_hostID.ConvertToUint64()) {
         if (pCallback->m_rgfChatMemberStateChange == k_EChatMemberStateChangeLeft || pCallback->m_rgfChatMemberStateChange == k_EChatMemberStateChangeDisconnected) {
-            log::info("Host left server! Leaving lobby.");
-
-            // properBackend->leaveLobby();
-
-            switchToScene(CreatorLayer::create());
-
-            FLAlertLayer::create(
-                "Host stopped hosting",    
-                "The host has stopped hosting the level!",  
-                "Ok"
-            )->show();
-
+            netManager->hostEndedServerKick();
         }
     }
 
     log::debug("LobbyChatUpdateWrapper called. UserID: {} | UserName: {} | StateChange: {} | SteamIDMakingChange: {}", pCallback->m_ulSteamIDUserChanged, SteamFriends()->GetFriendPersonaName(pCallback->m_ulSteamIDUserChanged), pCallback->m_rgfChatMemberStateChange, pCallback->m_ulSteamIDMakingChange);
-
 
     // netManager->fetchMemberList();
 }

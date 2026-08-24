@@ -17,3 +17,6 @@
 #define MAX_CURSOR_MESSAGES 64
 
 #define MAX_USERS 8
+
+// Log all received messages
+#define LOG_RECV true

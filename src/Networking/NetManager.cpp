@@ -20,3 +20,17 @@ bool NetManager::getIsInLobby() {
 bool NetManager::getWasDataSent() {
     return NetManager::get()->m_wasDataSent;
 }
+
+void NetManager::hostEndedServerKick() {
+    log::info("Host left server! Leaving lobby.");
+
+    // properBackend->leaveLobby();
+
+    switchToScene(CreatorLayer::create());
+
+    FLAlertLayer::create(
+        "Host stopped hosting",    
+        "The host has <cy>stopped</c> hosting the level!",  
+        "Ok"
+    )->show();
+}

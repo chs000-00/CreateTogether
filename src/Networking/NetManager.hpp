@@ -23,8 +23,8 @@ class NetManager : public Singleton<NetManager> {
         HasCapableBackend* m_backend = nullptr;
 
         // ... *gulp*
-        SteamworksBackend* m_steamBackend = nullptr;
-        ENetBackend* m_eNetBackend = nullptr;
+        // SteamworksBackend* m_steamBackend = nullptr;
+        // ENetBackend* m_eNetBackend = nullptr;
 
         bool m_isHosting = false;
         bool m_isSteamworksLoaded = false;
@@ -37,9 +37,16 @@ class NetManager : public Singleton<NetManager> {
         // This is set to true temporarily inside a recv function.
         bool m_wasDataSent = false;
         
-        // Returns this->m_wasDataSent
+        // Returns NetManager::get()->m_wasDataSent
         static bool getWasDataSent();
 
-
         flatbuffers::FlatBufferBuilder m_builder;
+
+        void hostEndedServerKick();
+
+        // Parse data. Called in receiveData.
+        Result<uint8_t> parseData(const CTSerialize::MessageHeader* msg, SteamNetworkingIdentity msgSource) {
+            return Err("Not implemented");
+        }
+
 };

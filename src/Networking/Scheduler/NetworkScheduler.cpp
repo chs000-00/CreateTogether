@@ -3,9 +3,10 @@
 
 
 $execute {
-    log::info("Creating CT NetworkScheduler!");
+    log::debug("Creating CT NetworkScheduler!");
     Loader::get()->queueInMainThread([]{
         CCScheduler::get()->scheduleUpdateForTarget(new NetworkScheduler{}, 3200, false);
+        log::debug("CT NetworkScheduler scheduled.");
     });
 }
 
