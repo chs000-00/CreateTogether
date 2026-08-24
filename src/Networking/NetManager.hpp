@@ -20,11 +20,11 @@ class NetManager : public Singleton<NetManager> {
         // Called each tick or smth idk how this shit works
         void update();
 
-        HasCapableBackend* m_backend;
+        HasCapableBackend* m_backend = nullptr;
 
         // ... *gulp*
-        SteamworksBackend* m_steamBackend;
-        ENetBackend* m_eNetBackend;
+        SteamworksBackend* m_steamBackend = nullptr;
+        ENetBackend* m_eNetBackend = nullptr;
 
         bool m_isHosting = false;
         bool m_isSteamworksLoaded = false;

@@ -1,7 +1,8 @@
 #include "HostPopup.hpp"
 
+// TODO: Add an enum to show different popups based on if you joined/hosted/didn't
 bool HostPopup::init() {
-    if (!Popup::init(340.f, 250.f, "GE_square02.png"))
+    if (!Popup::init(340.f, 250.f, "geode.loader/GE_square02.png"))
         return false;
 
     // convenience function provided by Popup
@@ -29,7 +30,17 @@ bool HostPopup::init() {
                             this->m_currentLobbyType = k_ELobbyTypePrivate;
                         }
                     }).scale(0.75),
-                    Build<CCLabelBMFont>::create("Require Invite", "bigFont.fnt").scale(0.75)
+                    Build<CCLabelBMFont>::create("Require Invite", "bigFont.fnt").scale(0.75),
+                    Build<CCSprite>::createSpriteName(
+                        "GJ_infoIcon_001.png"
+                    ).scale(0.6)
+                    .intoMenuItem([this] {
+                        FLAlertLayer::create(
+                            "Info:",
+                            "<cr>Note:</c> This setting <cy>only</c> applies for levels hosted with <cf>Steamworks</c>\nShould your friends be able to join you <cp>without a prior invite?</c>",
+                            "ok"
+                        )->show();
+                    })
                 ).updateLayout(),
 
             Build<CCMenu>::create()
@@ -39,23 +50,37 @@ bool HostPopup::init() {
                 ).contentSize({300, 200})
                 .children(
                     Build<CCMenuItemToggler>::createToggle([](CCMenuItemToggler* toggler) {
-                        log::info("toggled steamworks! {}", toggler->isOn()); 
+                        
+                        log::info("Toggled steamworks! {}", toggler->isOn()); 
+
                     }).scale(0.75),
-                    Build<CCLabelBMFont>::create("Use Steamworks", "bigFont.fnt").scale(0.75)
+                    Build<CCLabelBMFont>::create("Use Steamworks", "bigFont.fnt").scale(0.75),
+                        Build<CCSprite>::createSpriteName(
+                            "GJ_infoIcon_001.png"
+                        ).scale(0.6)
+                        .intoMenuItem([this] {
+                            FLAlertLayer::create(
+                                "Info:",
+                                "<cd>Host using steam's built-in</c> <cf>p2p servers</c>.\nEnabling this setting means <cg>you are not required to port-forward</c>, and <cy>you can join via steam-invites</c>, <cr>however</c> only PC players with steam may join.",
+                                "ok"
+                            )->show();
+                        })
                 ).updateLayout()
 
         ).updateLayout()
         .anchorPoint({0.5, 0.5})
         .parentAtPos(m_mainLayer, Anchor::Center);
 
-    auto btn = geode::Button::createWithNode(
-        ButtonSprite::create("Start Hosting", 0, false, "goldFont.fnt", "GJ_button_05.png", .0f, 1.4f),
-        [this](auto sender) {
+    Build<ButtonSprite>::create(
+        "Start Hosting",
+        "goldFont.fnt",
+        "GJ_button_05.png",
+        1.4f
+    ).intoMenuItem([this] {
             startHosting();
-        }
-    );
-
-    m_mainLayer->addChildAtPosition(btn, Anchor::Bottom, {0, 25});
+        }) // returns Build<CCMenuItemSpriteExtra>
+    .intoNewParent(CCMenu::create()) // returns Build<CCMenu>
+    .parentAtPos(m_mainLayer, Anchor::Bottom, {0, 25});
 
     return true;
 }
@@ -77,6 +102,7 @@ HostPopup* HostPopup::create() {
     return nullptr;
 }
 
+// Makes the popup ~-=look awesome=-~
 void HostPopup::show() {
     if (this->m_noElasticity) {
         auto scene = CCDirector::sharedDirector()->m_pRunningScene;

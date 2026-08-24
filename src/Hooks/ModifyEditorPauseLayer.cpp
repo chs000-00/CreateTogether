@@ -1,4 +1,5 @@
 #include <Geode/Geode.hpp>
+#include <Geode/binding/GameToolbox.hpp>
 #include <Geode/modify/EditorPauseLayer.hpp>
 #include <UI/HostPopup.hpp>
 
@@ -27,6 +28,16 @@ class $modify(ModifiedEditorPauseLayer, EditorPauseLayer) {
         hostPopupButton->setID("host-button"_spr);
         menu->updateLayout();
 
+        if (!Mod::get()->getSavedValue<bool>("shown-beta-warning")) {
+            auto sickassParticles = CCParticleSystemQuad::create();
+            GameToolbox::particleFromString(
+                "110a10a3a0.25a33a90a26a0a10a15a15a0a0a0a0a99a0a40a1a0a0a0.211765a0a0.733333a0a1a0a1a0a0a1a0a0a0.341176a0.17a0.972549a0.73a0.858824a0.69a1a0.63a0a0a0a0a0a0a0a0a0a0a0a2a1a0a0a0a159a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+                sickassParticles,
+                false
+            );
+            sickassParticles->setZOrder(-5);
+            hostPopupButton->addChildAtPosition(sickassParticles, Anchor::Center);
+        }
         return true;
     }
 
@@ -50,7 +61,8 @@ class $modify(ModifiedEditorPauseLayer, EditorPauseLayer) {
         // if (m_fields->m_lobbyPopup) {
         //     m_fields->m_lobbyPopup->show();
         // }
-
+        
+        log::debug("onHostPopupButton() called");
         auto fields = m_fields.self();
         fields->m_lobbyPopup = HostPopup::create();
         if (fields->m_lobbyPopup) {
@@ -60,15 +72,15 @@ class $modify(ModifiedEditorPauseLayer, EditorPauseLayer) {
         if (!Mod::get()->setSavedValue("shown-beta-warning", true)) {
             FLAlertLayer::create(
                 "Warning:",
-                "Create together is currently in beta! Issues can and will arrise, so please make sure you backed up your levels beforehand!",
+                "Create together is currently in beta! <co>Issues can and will arrise</c>, so please make sure you <cp>back up your levels</c> beforehand!",
                 "Continue"
             )->show();
         }
     }
 
     // TODO: There might be an issue with exiting the lobby before you get to confirm exiting on the popup.
-
     void onSaveAndPlay(CCObject* sender) {
+        log::debug("onSaveAndPlay() called");
         if (NetManager::get()->m_isHosting) {
             FLAlertLayer::create(
                 "In Progress",

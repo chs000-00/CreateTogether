@@ -7,7 +7,9 @@ void SteamManager::onLobbyCreated(LobbyCreated_t* pCallback, bool bIOFailure) {
     if (pCallback->m_eResult == k_EResultOK) {
         log::info("Created Lobby with steamID {}.", pCallback->m_ulSteamIDLobby);
 
-        // If you plan on using SteamMatchmaking please set these variables at some point when creating your lobby.
+        // If any other mod developer who reads this code
+        // plans on using SteamMatchmaking in their mod please set these variables at some point
+        // with the proper data when creating your lobby.
         SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "lobby_mod_type", MOD_ID.c_str());
         SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "lobby_mod_version", MOD_VERSION.c_str());
 
@@ -15,9 +17,11 @@ void SteamManager::onLobbyCreated(LobbyCreated_t* pCallback, bool bIOFailure) {
         SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "level_name", LevelEditorLayer::get()->m_level->m_levelName.c_str());
         SteamMatchmaking()->SetLobbyData(pCallback->m_ulSteamIDLobby, "host_name", SteamFriends()->GetPersonaName());
 
+        // :steamhappy:
         geode::Notification::create(
         "You are now hosting a lobby",
             NotificationIcon::Success);
+        log::info("Successfully started hosting a lobby with SteamID: {}", pCallback->m_ulSteamIDLobby);
 
     } else {
         log::warn("Failed to create lobby with error code {}!", fmt::underlying(pCallback->m_eResult));
@@ -36,11 +40,11 @@ void SteamManager::onGameJoinRequest(GameLobbyJoinRequested_t* pCallback) {
     log::info("Game join was requested.");
 
     auto data = new GameLobbyJoinRequested_t;
-    *data = *pCallback;
+    *data = *pCallback; // Copy pointer pCallback's value to the other pointer's value (Properly! Unlike last time!)
 
     geode::createQuickPopup(
         "Lobby",         
-        fmt::format("Join {}'s Lobby?", SteamFriends()->GetFriendPersonaName(data->m_steamIDFriend)),
+        fmt::format("Join <cp>{}'s</c> Lobby?", SteamFriends()->GetFriendPersonaName(data->m_steamIDFriend)),
         "Cancel", "Join",
         [data](auto, bool btn2) {
             if (btn2) {
@@ -52,7 +56,10 @@ void SteamManager::onGameJoinRequest(GameLobbyJoinRequested_t* pCallback) {
                 
                 // NetManager::get()->joinSteamLobby(callback);
             }
-            delete data;
+            
+            log::debug("User cancelled request to join lobby.");
+
+            delete data; // no memory leak. also idgaf about using Ref<> in these two lines of code
         }
         
     );

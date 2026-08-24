@@ -13,6 +13,9 @@ protected:
 
     ELobbyType m_currentLobbyType;
 
+    // TODO-LIKELY-NEVER: Use a proper enum/something else instead of a bool flag
+    bool m_useSteamworks = false;
+
     bool init() override;
 
     void startHosting();

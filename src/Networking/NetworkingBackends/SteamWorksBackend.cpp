@@ -1,5 +1,6 @@
 #include "SteamworksBackend.hpp"
 #include <Networking/NetManager.hpp>
+#include <fmt/format.h>
 
 void SteamworksBackend::sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) {
 
@@ -25,5 +26,6 @@ void SteamworksBackend::create(ELobbyType lobbyType, uint8_t max) {
     SteamMatchmaking()->CreateLobby(lobbyType, max);
     // net->m_steamBackend = new SteamworksBackend;
     // net->m_backend = net->m_steamBackend
+    log::info("Waiting for CreateLobby(lobbyType: {}, max: {}) to finish...", fmt::underlying(lobbyType), max);
     return;
 }
