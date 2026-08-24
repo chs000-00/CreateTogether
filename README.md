@@ -8,7 +8,9 @@ Create Together is a Geometry Dash multiplayer live editing mod. It uses SteamP2
 <img src="logo.png" width="150" alt="the mod's very epic logo" />
 
 Note: this mod is currently incomplete and may cause issues.
-Yes I know this code is gross-looking, but feel free to contribute with a pr.
+Yes I know this code is gross-looking, but feel free to contribute with a pr.  
+  
+Dedicated server software will come soon in the future.
 
 ## Build instructions
 For more info, see [the geode docs](https://docs.geode-sdk.org/getting-started/create-mod#build)

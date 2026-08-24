@@ -20,8 +20,8 @@ class ENetBackend : HasCapableBackend {
         void connectToLobby();
 
         using CreateENetBackendTask = Task<Result<ENetBackend*>>;
+
         static CreateENetBackendTask create(std::string host, uint16_t port);
-        static CreateENetBackendTask host(uint16_t port);
 
         ~ENetBackend();
 
