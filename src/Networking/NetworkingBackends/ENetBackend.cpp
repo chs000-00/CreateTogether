@@ -9,6 +9,11 @@ void ENetBackend::recvMessages() {
         log::debug("ENet polled messages while not fully initialized");
         return;
     }
+
+    while (enet_host_service(this->m_client, &this->m_event, 0) > 0) {
+        // parse data
+        break;
+    }
 }
 
 // TODO: Finish!
@@ -28,11 +33,11 @@ ENetBackend::CreateENetBackendTask create(std::string host, uint16_t port) {
     return ENetBackend::CreateENetBackendTask::run([host, port](auto progress, auto hasBeenCancelled) -> ENetBackend::CreateENetBackendTask::Result {
         ENetBackend* backend = new ENetBackend;
         backend->m_client = enet_host_create(
-            NULL /* create a client host */,
-            1 /* only allow 1 outgoing connection */,
+            CLIENT_HOST, // create a client host
+            1, // only allow 1 outgoing connection
             CHANNEL_COUNT,
-            0 /* assume any amount of incoming bandwidth */,
-            0 /* assume any amount of outgoing bandwidth */
+            0, // assume any amount of incoming bandwidth
+            0 // assume any amount of outgoing bandwidth
         );
 
         if (backend->m_client == NULL) {
@@ -43,8 +48,8 @@ ENetBackend::CreateENetBackendTask create(std::string host, uint16_t port) {
         enet_address_set_host(&backend->m_address, host.c_str());
         backend->m_address.port = port;
 
-        backend->m_peer = enet_host_connect(backend->m_client, &backend->m_address, 2, 0);
-        
+        // Initiate the connection
+        backend->m_peer = enet_host_connect(backend->m_client, &backend->m_address, CHANNEL_COUNT, 0);
         if (backend->m_peer == NULL) {
             delete backend;
             return Err("No available peers for initiating an ENet connection");

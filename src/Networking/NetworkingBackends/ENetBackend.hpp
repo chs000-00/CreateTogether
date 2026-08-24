@@ -9,6 +9,9 @@
 
 using namespace geode::prelude;
 
+// poo poo
+#define CLIENT_HOST NULL
+
 class ENetBackend : HasCapableBackend {
     public:
         void sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) override;
@@ -18,7 +21,8 @@ class ENetBackend : HasCapableBackend {
 
         using CreateENetBackendTask = Task<Result<ENetBackend*>>;
         static CreateENetBackendTask create(std::string host, uint16_t port);
-        
+        static CreateENetBackendTask host(uint16_t port);
+
         ~ENetBackend();
 
         ENetHost* m_client;
