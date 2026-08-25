@@ -24,7 +24,7 @@ bool HostPopup::init() {
                 .children(
                     Build<CCMenuItemToggler>::createToggle([this](CCMenuItemToggler* toggler) {
                         log::info("toggled invite! {}", toggler->isOn()); 
-                        if (toggler->isOn()) {
+                        if (!toggler->isOn()) {
                             this->m_currentLobbyType = k_ELobbyTypeFriendsOnly;
                         } else {
                             this->m_currentLobbyType = k_ELobbyTypePrivate;
