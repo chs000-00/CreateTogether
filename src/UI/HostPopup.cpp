@@ -50,9 +50,7 @@ bool HostPopup::init() {
                 ).contentSize({300, 200})
                 .children(
                     Build<CCMenuItemToggler>::createToggle([](CCMenuItemToggler* toggler) {
-                        
                         log::info("Toggled steamworks! {}", toggler->isOn()); 
-
                     }).scale(0.75),
                     Build<CCLabelBMFont>::create("Use Steamworks", "bigFont.fnt").scale(0.75),
                         Build<CCSprite>::createSpriteName(

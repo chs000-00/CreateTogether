@@ -11,7 +11,7 @@ using namespace geode::prelude;
 class HostPopup : public geode::Popup {
 protected:
 
-    ELobbyType m_currentLobbyType;
+    ELobbyType m_currentLobbyType = k_ELobbyTypePrivate;
 
     // TODO-LIKELY-NEVER: Use a proper enum/something else instead of a bool flag
     bool m_useSteamworks = false;
