@@ -100,7 +100,7 @@ HostPopup* HostPopup::create() {
     return nullptr;
 }
 
-// Makes the popup ~-=look awesome=-~
+// Makes the popup ~-= 𝓛𝓸𝓸𝓴 𝓪𝔀𝓮𝓼𝓸𝓶𝓮 =-~
 void HostPopup::show() {
     if (this->m_noElasticity) {
         auto scene = CCDirector::sharedDirector()->m_pRunningScene;
@@ -126,7 +126,7 @@ void HostPopup::show() {
         this->m_mainLayer->setScale(0);
 
 
-        CCActionInterval * rotateAction;
+        CCActionInterval* rotateAction;
 
         // Haha funny easter egg
         if (!geode::utils::random::chance(0.02f)) {
