@@ -9,7 +9,8 @@ using namespace geode::prelude;
 class $modify(IDGameObject, GameObject) {
     struct Fields {
         // m_veryUniqueID is a unique id assigned to every gameObject. You can access an objects vUID and an object from a vUID via dictionary inside the EditorLayer
-        // vUID can be **any** unique identifier, currently it is the user who created it steam ID + "!" + a counter which increments each time said person places a block down 
+        // vUID can be **any** unique identifier, i'll prob. figure out how to store them later.
+        // (it used to be the user who created it steam ID + "!" + a counter which increments each time said person places a block down, but this was later changed)
         // TODO: Implement this properly now that I am using flatbuffers. I am not sure how the hashing would work (although I could always do int(bytes)?)
         vUIDContainer m_veryUniqueID;
     };

@@ -1,11 +1,11 @@
 #include "HighLevelSend.hpp"
 
-void addStringToIDList(IDList& uniqueIDList, vUIDContainer objectID) {
+void HLSend::addStringToIDList(IDList& uniqueIDList, vUIDContainer objectID) {
     auto netManager = NetManager::get();
     uniqueIDList.push_back(objectID.createOffset(netManager->m_builder));
 }
 
-void sendCreateObjects(vUIDContainer uniqueID, uint64_t objectID, CCPoint pos, float rotation, bool isHighDetail, bool noGlow, bool noEnter, bool flipX, bool flipY, float scaleX, float scaleY, short layer) {
+void HLSend::sendCreateObjects(vUIDContainer uniqueID, uint64_t objectID, CCPoint pos, float rotation, bool isHighDetail, bool noGlow, bool noEnter, bool flipX, bool flipY, float scaleX, float scaleY, short layer) {
     auto netManager = NetManager::get();
     auto objectPos = CTSerialize::CCPosI(pos.x, pos.y);
     auto flip = CTSerialize::ObjectFlip(flipX, flipY);
@@ -19,7 +19,7 @@ void sendCreateObjects(vUIDContainer uniqueID, uint64_t objectID, CCPoint pos, f
 }
 
 
-void sendDeleteObjects(IDList& uniqueIDList) {
+void HLSend::sendDeleteObjects(IDList& uniqueIDList) {
     auto netManager = NetManager::get();
     auto deleteObjectsMessage = CTSerialize::CreateDeleteObjects(netManager->m_builder, netManager->m_builder.CreateVector(uniqueIDList));
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_DeleteObjects, deleteObjectsMessage.Union());
@@ -27,7 +27,7 @@ void sendDeleteObjects(IDList& uniqueIDList) {
     netManager->m_builder.Clear();
 }
 
-void sendMoveObjects(vUIDContainer uniqueID, CCPoint offset) {
+void HLSend::sendMoveObjects(vUIDContainer uniqueID, CCPoint offset) {
     // auto netManager = NetManager::get();
     // auto offsetPos = CTSerialize::CCPos(offset.x, offset.y);
     // auto moveObjectsOffset = CTSerialize::CreateMoveObjectsDirect(netManager->m_builder, uniqueID, &offsetPos);
@@ -36,7 +36,7 @@ void sendMoveObjects(vUIDContainer uniqueID, CCPoint offset) {
     // netManager->m_builder.Clear();
 }
 
-void sendLevelSettingChange(uint16 settingID) {
+void HLSend::sendLevelSettingChange(uint16 settingID) {
     auto netManager = NetManager::get();
     auto levelSettingChangeOffset = CTSerialize::CreateLevelSettingChange(netManager->m_builder, settingID);
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_LevelSettingChange, levelSettingChangeOffset.Union());
@@ -45,7 +45,7 @@ void sendLevelSettingChange(uint16 settingID) {
 }
 
 // TODO: Remove hardcoded value / use enums
-void sendSpawnGroupChange(int spawngroup) {
+void HLSend::sendSpawnGroupChange(int spawngroup) {
     auto netManager = NetManager::get();
     auto levelSettingChangeOffset = CTSerialize::CreateLevelSettingChange(netManager->m_builder, 13, spawngroup);
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_LevelSettingChange, levelSettingChangeOffset.Union());
@@ -53,7 +53,7 @@ void sendSpawnGroupChange(int spawngroup) {
     netManager->m_builder.Clear();
 }
 
-void sendRotateObjects(IDList& uniqueIDList, float rotation, CCPoint anchor) {
+void HLSend::sendRotateObjects(IDList& uniqueIDList, float rotation, CCPoint anchor) {
     auto netManager = NetManager::get();
     auto objectPos = CTSerialize::CCPos(anchor.x, anchor.y);
     auto rotateObjectsOffset = CTSerialize::CreateRotateObjects(netManager->m_builder, rotation, &objectPos, netManager->m_builder.CreateVector(uniqueIDList));
@@ -62,7 +62,7 @@ void sendRotateObjects(IDList& uniqueIDList, float rotation, CCPoint anchor) {
     netManager->m_builder.Clear();
 }
 
-void sendPasteObjects(IDList& uniqueIDList, const char* copyStr) {
+void HLSend::sendPasteObjects(IDList& uniqueIDList, const char* copyStr) {
     auto netManager = NetManager::get();
     auto pasteObjectsMessage = CTSerialize::CreatePasteObjects(netManager->m_builder, netManager->m_builder.CreateVector(uniqueIDList), netManager->m_builder.CreateString(copyStr));
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_PasteObjects, pasteObjectsMessage.Union());
@@ -70,7 +70,7 @@ void sendPasteObjects(IDList& uniqueIDList, const char* copyStr) {
     netManager->m_builder.Clear();
 }
 
-void sendModifyObjects(IDList& uniqueIDList, const char* copyStr) {
+void HLSend::sendModifyObjects(IDList& uniqueIDList, const char* copyStr) {
     auto netManager = NetManager::get();
     auto modifyObjectsMessage = CTSerialize::CreateModifyObjects(netManager->m_builder, netManager->m_builder.CreateVector(uniqueIDList), netManager->m_builder.CreateString(copyStr));
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_ModifyObjects, modifyObjectsMessage.Union());
@@ -78,7 +78,7 @@ void sendModifyObjects(IDList& uniqueIDList, const char* copyStr) {
     netManager->m_builder.Clear();
 }
 
-void sendChangeDefaultColor(int groupID, ccColor3B currentColor, ccHSVValue hsv, bool blending, float opacity, bool copyOpacity, int copyColorID) {
+void HLSend::sendChangeDefaultColor(int groupID, ccColor3B currentColor, ccHSVValue hsv, bool blending, float opacity, bool copyOpacity, int copyColorID) {
     auto netManager = NetManager::get();
     auto currentColorOffset = CTSerialize::CCColor3B(currentColor.r, currentColor.g, currentColor.b);
     auto hsvOffset = CTSerialize::CCHsvValue(hsv.h, hsv.s, hsv.v, hsv.absoluteSaturation, hsv.absoluteBrightness);
@@ -88,7 +88,7 @@ void sendChangeDefaultColor(int groupID, ccColor3B currentColor, ccHSVValue hsv,
     netManager->m_builder.Clear();
 }
 
-void sendRequestLevel() {
+void HLSend::sendRequestLevel() {
     auto netManager = NetManager::get();
     auto requestLevelOffset = CTSerialize::CreateRequestLevel(netManager->m_builder);
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_RequestLevel, requestLevelOffset.Union());
@@ -96,7 +96,7 @@ void sendRequestLevel() {
     netManager->m_builder.Clear();
 }
 
-void sendReturnLevelString() {
+void HLSend::sendReturnLevelString() {
     // auto netManager = NetManager::get();
     // auto level = static_cast<MyLevelEditorLayer*>(LevelEditorLayer::get());
 
@@ -124,7 +124,7 @@ void sendReturnLevelString() {
     // netManager->m_builder.Clear();
 }
 
-void sendUpdateSong(uint64_t songID) {
+void HLSend::sendUpdateSong(uint64_t songID) {
     auto netManager = NetManager::get();
     auto updateSongMessage = CTSerialize::CreateUpdateSong(netManager->m_builder, songID);
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_UpdateSong, updateSongMessage.Union());
@@ -132,7 +132,7 @@ void sendUpdateSong(uint64_t songID) {
     netManager->m_builder.Clear();
 }
 
-void sendChangeArt(SelectArtType artType, int artID, int line) {
+void HLSend::sendChangeArt(SelectArtType artType, int artID, int line) {
     auto netManager = NetManager::get();
     auto changeArtMessage = CTSerialize::CreateChangeArt(netManager->m_builder, static_cast<CTSerialize::ArtType>(artType), artID, line);
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_ChangeArt, changeArtMessage.Union());
@@ -140,7 +140,7 @@ void sendChangeArt(SelectArtType artType, int artID, int line) {
     netManager->m_builder.Clear();
 }
 
-void sendSpeedChange(int speed) {
+void HLSend::sendSpeedChange(int speed) {
     auto netManager = NetManager::get();
     auto speedChangeMessage = CTSerialize::CreateSpeedChange(netManager->m_builder,  static_cast<CTSerialize::Speed>(speed));
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_SpeedChange, speedChangeMessage.Union());
@@ -148,7 +148,7 @@ void sendSpeedChange(int speed) {
     netManager->m_builder.Clear();
 }
 
-void sendGameModeChange(uint8 gameMode) {
+void HLSend::sendGameModeChange(uint8 gameMode) {
     auto netManager = NetManager::get();
     auto gameModeMessage = CTSerialize::CreateGameModeChange(netManager->m_builder, gameMode);
     auto messageHeaderOffset = CTSerialize::CreateMessageHeader(netManager->m_builder, CTSerialize::MessageBody_GameModeChange, gameModeMessage.Union());
