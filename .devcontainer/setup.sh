@@ -15,14 +15,14 @@ rm llvm.sh
 # xwin refuses to use clang19 for whatever reason so we manually define it here
 export CLANG_VER=19
 export LLVM_VER=19
-echo "export export CLANG_VER=19" >> ~/.bashrc
-echo "export export LLVM_VER=19" >> ~/.bashrc
+echo "export CLANG_VER=19" >> ~/.bashrc
+echo "export LLVM_VER=19" >> ~/.bashrc
 
-wget https://github.com/geode-sdk/cli/releases/download/v3.8.0/geode-cli-v3.8.0-linux.zip
-unzip geode-cli-v3.8.0-linux.zip
+wget https://github.com/geode-sdk/cli/releases/download/v3.9.0/geode-cli-v3.9.0-linux.zip
+unzip geode-cli-v3.9.0-linux.zip
 chmod +x geode
 sudo mv geode /usr/local/bin/
-rm geode-cli-v3.8.0-linux.zip
+rm geode-cli-v3.9.0-linux.zip
 
 wget https://github.com/Jake-Shadle/xwin/releases/download/0.9.0/xwin-0.9.0-x86_64-unknown-linux-musl.tar.gz
 tar -xzf xwin-0.9.0-x86_64-unknown-linux-musl.tar.gz

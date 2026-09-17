@@ -21,9 +21,16 @@ $execute {
             if (!steam) {
                 geode::log::error("You take 30 million horses and put them in a room, then wait a year. Half of them die due to cramming so you have 15 million left. Some of them have kids so now you have 27 million horses, rinse and repeat. After that, you should be left with 5 of the most beautiful, most inbred creatures on our dear planet earth. Enjoy your creations while they last because they will die. Or you can sell them for major doubloons.");
                 geode::log::error("gd pirata. ¡Desactivando Steamworks!");
-            } else {
+            } else if (Mod::get()->getSettingValue<bool>("force-disable-steamworks")) {
+                geode::log::info("Loaded without steamworks due to user configuration.");
+            }
+            else {
                 steamManager->m_isSteamworksLoaded = true;
             }
+
+        #else
+
+            geode::log::warn("CreateTogether was compiled without STEAMWORKS. Issues may arise.");
 
         #endif
 
@@ -32,12 +39,16 @@ $execute {
     if (enet_initialize () != 0) {
         log::error("enet failed to initialize");
 
-        auto dis = Mod::get()->disable();
-        if (!dis) {
-            log::error("couldn't disable mod, {}", dis.err());
-        }
+        if (Mod::get()->getSettingValue<bool>("dont-terminate-on-enet-initialize-failure")) {
+            auto dis = Mod::get()->disable();
+            if (!dis) {
+                log::error("couldn't disable mod, {}", dis.err());
+            }
 
-        geode::utils::terminate("enet failed to initialize");
+            geode::utils::terminate("enet failed to initialize");
+        } else {
+            log::warn("enet failed yet dont-terminate-on-enet-initialize-failure was enabled. Continuing anyways.");
+        }
     }
     // _Init = (Init_t)GetProcAddress(steam, "SteamAPI_ISteamInput_Init");
     // _RunFrame = (RunFrame_t)GetProcAddress(steam, "SteamAPI_ISteamInput_RunFrame");

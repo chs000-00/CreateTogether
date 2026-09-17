@@ -12,13 +12,13 @@ namespace HLSend {
     // Too lazy to write out std::vector<flatbuffers::Offset<flatbuffers::String>>
     typedef std::vector<flatbuffers::Offset<CTSerialize::veryUniqueID>> IDList;
 
-    void addStringToIDList(IDList& uniqueIDList, uint64_t objectID);
+    void addStringToIDList(IDList& uniqueIDList, vUIDContainer uniqueID);
 
-    void sendCreateObjects(const char* uniqueID, uint64_t objectID, CCPoint pos, float rotation, bool isHighDetail, bool noGlow, bool noEnter, bool flipX, bool flipY, float scaleX, float scaleY, short layer);
+    void sendCreateObjects(vUIDContainer uniqueID, uint64_t objectID, CCPoint pos, float rotation, bool isHighDetail, bool noGlow, bool noEnter, bool flipX, bool flipY, float scaleX, float scaleY, short layer);
 
     void sendDeleteObjects(IDList& uniqueIDList);
 
-    void sendMoveObjects(const char* uniqueID, CCPoint offset);
+    void sendMoveObjects(vUIDContainer uniqueID, CCPoint offset);
 
     void sendLevelSettingChange(uint16 settingID);
 

@@ -36,6 +36,7 @@ table GDWaveObject {
     cursorID:int;
     cursorHasGlow:bool;
     cursorGlowColor:int;
+    playerTrail:int;
 }
 
 // GD ENUMS
