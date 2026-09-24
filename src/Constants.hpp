@@ -1,11 +1,13 @@
 #pragma once
 
+// Relic from legacy code.
 #define MOD_ID geode::Mod::get()->getID()
 #define MOD_VERSION geode::Mod::get()->getVersion().toVString(true)
 
 #define EDITOR_CHANNEL 0
 #define CURSOR_CHANNEL 1
 
+// Total channel count. (Highest channel + 1)
 #define CHANNEL_COUNT 2
 
 #define DEDICATED_EDITOR_PORT 24018
@@ -18,5 +20,5 @@
 
 #define MAX_USERS 8
 
-// Log all received messages
+// Log all received messages. For debugging purposes.
 #define LOG_RECV true

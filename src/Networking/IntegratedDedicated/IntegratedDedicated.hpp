@@ -14,6 +14,10 @@ public:
 private:
     ENetAddress m_address = {0};
     ENetHost* m_server = nullptr;
+
+    // Is this IntegratedDedicated server currently active?
     bool m_isHosting = false;
+
+    void cleanup();
 };
 

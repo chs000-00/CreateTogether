@@ -6,16 +6,16 @@
 
 using namespace geode::prelude;
 
-// Fully virtual class containing the following:
+// Fully virtual class (emulating something similar to interfaces) containing the following:
 
 // sendMessageToLobby(); - Sends a flatbuf. message to everyone else in the lobby
 // recvMessages(); - Recvs. a list of queued messages to parse
 
-// Possibly?
+// Will possibly have these functions too:
 // sendCursorMessage()
 // recvCursorMessage()
 
-// (?) startHostingServer(); - Is able to start hosting server
+// (?) startHostingServer(); - Is able to start hosting server?
 
 // TODO: Implement a way to identify users
 // std::vector<UserIdentity> m_excludedMemberList;
