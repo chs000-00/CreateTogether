@@ -1,4 +1,5 @@
 #include "NetManager.hpp"
+#include "Utills.hpp"
 
 void NetManager::update() {
     if (this->m_isSteamworksLoaded) {
@@ -33,4 +34,8 @@ void NetManager::hostEndedServerKick() {
         "The host has <cy>stopped</c> hosting the level!",  
         "Ok"
     )->show();
+}
+
+MayFail NetManager::parseData(const CTSerialize::MessageHeader* msg, const bool isHost) {
+    return Err("Not finished");
 }

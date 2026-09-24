@@ -5,6 +5,7 @@
 #include <Networking/NetworkingBackends/SteamworksBackend.hpp>
 #include <Networking/NetworkingBackends/ENetBackend.hpp>
 #include <Types/Singleton.hpp>
+#include <Utills.hpp>
 #include <steamworks/isteamnetworkingmessages.h>
 #include <steamworks/isteamuser.h>
 #include <steamworks/isteammatchmaking.h>
@@ -14,6 +15,8 @@
 using namespace geode::prelude;
 
 
+// A singleton class for storing networking related code
+// Anything related to sending or recieving data is to be placed in the inheritors of HasCapableBackend
 class NetManager : public Singleton<NetManager> {
     public:
 
@@ -45,8 +48,5 @@ class NetManager : public Singleton<NetManager> {
         void hostEndedServerKick();
 
         // Parse data. Called in receiveData.
-        Result<uint8_t> parseData(const CTSerialize::MessageHeader* msg, SteamNetworkingIdentity msgSource) {
-            return Err("Not implemented");
-        }
-
+        MayFail parseData(const CTSerialize::MessageHeader* msg, const bool isHost);
 };

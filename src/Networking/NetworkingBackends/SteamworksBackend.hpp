@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Geode/Geode.hpp>
+#include <Utills.hpp>
 #include <Constants.hpp>
 #include "HasCapableBackend.hpp"
 #include <steamworks/steamnetworkingtypes.h>

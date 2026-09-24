@@ -14,13 +14,13 @@ void SteamworksBackend::recvMessages() {
     }
 
     auto netManager = NetManager::get();
-    // Its parsing time
+    // It's parsing time
     for (int i = 0; i < numMessages; i++) {
         SteamNetworkingMessage_t* msg = messageList[i];
 
         // This should create a msg->GetSize() sized data object,
         // and copy all the data from the msg over to it.
-        uint8_t* data = new uint8_t[msg->GetSize()];
+        byte* data = new byte[msg->GetSize()];
         memcpy(data, msg->GetData(), msg->GetSize());
 
         auto messageHeader = CTSerialize::GetMessageHeader(data);
@@ -36,10 +36,11 @@ void SteamworksBackend::recvMessages() {
 
         if (LOG_RECV) {
             auto s = flatbuffers::FlatBufferToString(data, CTSerialize::MessageHeaderTypeTable());
-            log::debug("RecvMessage:{}", s);
+            log::debug("RecvMessage: {}", s);
         }
 
-        auto out = netManager->parseData(messageHeader, msg->m_identityPeer);
+        bool isTrusted = msg->m_identityPeer.GetSteamID() == this->m_hostID;
+        auto out = netManager->parseData(messageHeader, isTrusted);
 
         if (!out) {
             log::warn("Something went wrong while parsing: {}", out.unwrapErr());
