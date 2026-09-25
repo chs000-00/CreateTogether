@@ -26,9 +26,9 @@ namespace PRecv {
 
     MayFail recvChangeDefaultColor(const CTSerialize::ChangeDefaultColor* msg);
 
-    MayFail recvRequestLevel(const CTSerialize::RequestLevel* msg);
+    MayFail recvRequestLevel(const CTSerialize::RequestLevel* msg, bool trusted);
 
-    MayFail recvReturnLevelString(const CTSerialize::ReturnLevelString* msg);
+    MayFail recvReturnLevelString(const CTSerialize::ReturnLevelString* msg, bool trusted);
 
     MayFail recvUpdateSong(const CTSerialize::UpdateSong* msg);
 

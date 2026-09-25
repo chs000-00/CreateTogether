@@ -8,14 +8,12 @@ else()
 endif()
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+set(LINK_STEAMWORKS ON)
+
 project(CreateTogether VERSION 1.0.0)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     src/*.cpp
-)
-
-add_compile_definitions(
-    STEAMWORKS=1
 )
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
@@ -35,22 +33,28 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_link_libraries(${PROJECT_NAME}
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/steam_api64.lib
-)
+if (LINK_STEAMWORKS)
+
+    add_compile_definitions(
+        STEAMWORKS=1
+    )
+
+    target_link_libraries(${PROJECT_NAME}
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/steam_api64.lib
+    )
+
+endif()
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 setup_geode_mod(${PROJECT_NAME})
 
-CPMAddPackage("gh:camila314/UIBuilder#main")
-
-target_link_libraries(${PROJECT_NAME} UIBuilder)
+CPMAddPackage("gh:camila314/UIBuilder#39c6680")
 
 CPMAddPackage(
     URI "gh:zpl-c/enet#8b43b92"
     OPTIONS "ENET_STATIC 1"
 )
 
-target_link_libraries(${PROJECT_NAME} enet_static)
+target_link_libraries(${PROJECT_NAME} enet_static UIBuilder)
 

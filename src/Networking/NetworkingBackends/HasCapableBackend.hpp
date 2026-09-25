@@ -23,7 +23,9 @@ using namespace geode::prelude;
 
 class HasCapableBackend {
     public:
+
         // Sends an entire message to everyone in the lobby
+        // This function will only run when a proper lobby is hosted
         virtual void sendMessageToLobby(flatbuffers::Offset<CTSerialize::MessageHeader> out) = 0;
 
         virtual void recvMessages() = 0;

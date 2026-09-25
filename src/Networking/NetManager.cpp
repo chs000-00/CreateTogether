@@ -1,5 +1,7 @@
 #include "NetManager.hpp"
 #include "Utills.hpp"
+#include "ParseRecv.hpp"
+#include <fmt/format.h>
 
 void NetManager::update() {
     if (this->m_isSteamworksLoaded) {
@@ -37,5 +39,35 @@ void NetManager::hostEndedServerKick() {
 }
 
 MayFail NetManager::parseData(const CTSerialize::MessageHeader* msg, const bool isHost) {
-    return Err("Not finished");
+    auto dmsg = msg->body();
+    switch (msg->body_type()) {
+        SERIALIZE_AND_RECV(CreateObjects)
+        SERIALIZE_AND_RECV(DeleteObjects)
+        SERIALIZE_AND_RECV(MoveObjects)
+        SERIALIZE_AND_RECV(LevelSettingChange)
+        SERIALIZE_AND_RECV(RotateObjects)
+        SERIALIZE_AND_RECV(PasteObjects)
+        SERIALIZE_AND_RECV(ModifyObjects)
+        // SERIALIZE_AND_RECV(ChangeGroupID)
+        // SERIALIZE_AND_RECV(ModifyObjectAdvancedOptions)
+        // SERIALIZE_AND_RECV(ModifyObjectBasicOptions)
+        // SERIALIZE_AND_RECV(ModifyObjectSpecialOptions)
+        SERIALIZE_AND_RECV(ChangeDefaultColor)
+        SERIALIZE_AND_RECV(RequestLevel, isHost)
+        SERIALIZE_AND_RECV(ReturnLevelString, isHost)
+        // SERIALIZE_AND_RECV(UpdateFont)
+        SERIALIZE_AND_RECV(UpdateSong)
+        SERIALIZE_AND_RECV(ChangeArt)
+        SERIALIZE_AND_RECV(SpeedChange)
+        SERIALIZE_AND_RECV(GameModeChange)
+        // SERIALIZE_AND_RECV(AdminAction)
+        SERIALIZE_AND_RECV(PlayerCursorData)
+        SERIALIZE_AND_RECV(RequestForCursors)
+        // SERIALIZE_AND_RECV(GlobedHandshake)
+
+        case CTSerialize::MessageBody_NONE:
+        default:
+            return Err(fmt::format("Invalid Union Type: {}", fmt::underlying(msg->body_type())));
+    }
+    return Ok();
 }
