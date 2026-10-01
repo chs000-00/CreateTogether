@@ -44,8 +44,8 @@ std::string convertLobbyResultToString(EResult res);
 template <typename T> struct Pointer {
     T* inner;
 
-    T &operator->() const {
-         return inner;
+    T* operator->() const {
+        return inner;
     }
 
     T& Value()

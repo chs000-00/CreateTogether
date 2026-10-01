@@ -1,5 +1,6 @@
 #include "ParseRecv.hpp"
 #include "Hooks/ModifyGameObject.hpp"
+#include "Hooks/ModifyLevelEditorLayer.hpp"
 
 MayFail PRecv::recvCreateObjects(const CTSerialize::CreateObjects* msg) {
     auto minObj = msg->obj();
@@ -7,7 +8,7 @@ MayFail PRecv::recvCreateObjects(const CTSerialize::CreateObjects* msg) {
 
     // TODO: nullptr check this
     // TODO: Figure this out
-    auto level = LevelEditorLayer::get();
+    Pointer<IDLevelEditorLayer> level = static_cast<IDLevelEditorLayer*>(LevelEditorLayer::get());
     // TODO: Figure if a race condition is possible
     
     NetManager::get()->m_wasDataSent = true;
@@ -34,7 +35,7 @@ MayFail PRecv::recvCreateObjects(const CTSerialize::CreateObjects* msg) {
     auto vuid = vUIDContainer(/* minObj->uniqueID()->associatedID(), */ minObj->uniqueID()->objectID());
 
     betterPlacedGameObject->m_fields->m_veryUniqueID = vuid;
-    level->m_fields->m_pUniqueIDOfGameObject->setObject(placedGameObject, vuid);
+    level->m_fields->m_pUniqueIDOfGameObject->setObject(placedGameObject, vuid.objectID);
     return Ok();
 }
 

@@ -5,7 +5,7 @@
 #include <Geode/binding/GameObject.hpp>
 
 using namespace geode::prelude;
-class $modify(MyLevelEditorLayer, LevelEditorLayer) {
+class $modify(IDLevelEditorLayer, LevelEditorLayer) {
 
     struct Fields {
         unsigned int m_blocksPlaced = 0;
