@@ -3,7 +3,9 @@
 #include <Geode/Geode.hpp>
 #include <Geode/binding/GJBaseGameLayer.hpp>
 #include <Geode/binding/LevelSettingsObject.hpp>
+#include <stacktrace>
 #include <steamworks/steamnetworkingtypes.h>
+#include <valarray>
 
 using namespace geode::prelude;
 
@@ -38,3 +40,37 @@ std::string hashSteamNetworkingID(SteamNetworkingIdentity id);
 // bool steamworksDisabled();
 
 std::string convertLobbyResultToString(EResult res);
+
+template <typename T> struct Pointer {
+    T* inner;
+
+    T &operator->() const {
+         return inner;
+    }
+
+    T& Value()
+    {
+        return *inner;
+    }
+
+    T& operator* ()
+    {
+        return *inner;
+    }
+
+    bool operator==(T* val) {
+        return this->inner == val;
+    }
+
+    bool operator==(Pointer val) {
+        return this->inner == val;
+    }
+
+    Pointer(T* val) {
+        this->inner = val;
+        return this;
+    }
+
+private:
+    Pointer() { }
+};

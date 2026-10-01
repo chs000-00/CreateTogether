@@ -7,7 +7,7 @@ MayFail PRecv::recvCreateObjects(const CTSerialize::CreateObjects* msg) {
 
     // TODO: nullptr check this
     // TODO: Figure this out
-    auto level = static_cast<MyLevelEditorLayer*>(LevelEditorLayer::get());
+    auto level = LevelEditorLayer::get();
     // TODO: Figure if a race condition is possible
     
     NetManager::get()->m_wasDataSent = true;
