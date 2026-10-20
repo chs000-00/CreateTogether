@@ -32,6 +32,11 @@ union MessageBody {
 }
 
 table MessageHeader {
+    // THIS MUST ALWAYS ALWAYS ALWAYS ALWAYS BE ID 0
+    // Otherwise older clients WILL break with a weird error message when joining the newer servers.
+    // Note: messageVersions start at 1. If messageVersion == 0, that means messageVersions were reworked, and the client should auto-fail.
+    // This should be increased for every GD-Update and every CT-Update
+    messageVersion:uint32 (id: 0);
     body:MessageBody; 
 }
 
