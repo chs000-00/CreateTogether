@@ -41,36 +41,56 @@ std::string hashSteamNetworkingID(SteamNetworkingIdentity id);
 
 std::string convertLobbyResultToString(EResult res);
 
-template <typename T> struct Pointer {
-    T* inner;
+// template <typename T> struct Ptr {
+//     T* inner;
 
-    T* operator->() const {
-        return inner;
-    }
+//     T* operator->() const {
+//         return inner;
+//     }
 
-    T& Value()
-    {
-        return *inner;
-    }
+//     operator T*() {
+//         return inner; 
+//     }
 
-    T& operator* ()
-    {
-        return *inner;
-    }
+//     T& Value()
+//     {
+//         return *inner;
+//     }
 
-    bool operator==(T* val) {
-        return this->inner == val;
-    }
+//     T& operator* ()
+//     {
+//         return *inner;
+//     }
 
-    bool operator==(Pointer val) {
-        return this->inner == val;
-    }
+//     bool operator==(T* val) {
+//         return this->inner == val;
+//     }
 
-    Pointer(T* val) {
-        this->inner = val;
-        return this;
-    }
+//     T* Position()
+//     {
+//         return inner;
+//     }
 
-private:
-    Pointer() { }
-};
+//     bool operator==(Ptr val) {
+//         return this->inner == val;
+//     }
+
+//     template <typename U> U as_static() {
+//         return static_cast<U>(inner);
+//     }
+
+//     template <typename U> U as_dynamic() {
+//         return dynamic_cast<U>(inner);
+//     }
+
+//     template <typename U> U as_reinterpret() {
+//         return reinterpret_cast<U>(inner);
+//     }
+
+//     Ptr(T* val) {
+//         this->inner = val;
+//     }
+
+// private:
+//     Ptr() { }
+// };

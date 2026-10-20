@@ -8,7 +8,7 @@ MayFail PRecv::recvCreateObjects(const CTSerialize::CreateObjects* msg) {
 
     // TODO: nullptr check this
     // TODO: Figure this out
-    Pointer<IDLevelEditorLayer> level = static_cast<IDLevelEditorLayer*>(LevelEditorLayer::get());
+    IDLevelEditorLayer* level = static_cast<IDLevelEditorLayer*>(LevelEditorLayer::get());
     // TODO: Figure if a race condition is possible
     
     NetManager::get()->m_wasDataSent = true;
@@ -31,7 +31,7 @@ MayFail PRecv::recvCreateObjects(const CTSerialize::CreateObjects* msg) {
     }
 
     IDGameObject* betterPlacedGameObject = static_cast<IDGameObject*>(placedGameObject);
-    
+
     auto vuid = vUIDContainer(/* minObj->uniqueID()->associatedID(), */ minObj->uniqueID()->objectID());
 
     betterPlacedGameObject->m_fields->m_veryUniqueID = vuid;
