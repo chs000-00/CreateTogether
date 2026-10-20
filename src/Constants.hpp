@@ -22,3 +22,5 @@
 
 // Log all received messages. For debugging purposes.
 #define LOG_RECV true
+
+#define NETWORK_MESSAGE_VERSION 1
