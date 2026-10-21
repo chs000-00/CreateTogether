@@ -18,8 +18,6 @@ union MessageBody {
     ModifyObjectBasicOptions,
     ModifyObjectSpecialOptions,
     ChangeDefaultColor,
-    RequestLevel,
-    ReturnLevelString,
     UpdateFont,
     UpdateSong,
     ChangeArt,
@@ -27,15 +25,17 @@ union MessageBody {
     GameModeChange,
     AdminAction,
     PlayerCursorData,
-    RequestForCursors,
-    GlobedHandshake
+    RequestForInitialData,
+    ReturnInitialData
 }
 
 table MessageHeader {
     // THIS MUST ALWAYS ALWAYS ALWAYS ALWAYS BE ID 0
     // Otherwise older clients WILL break with a weird error message when joining the newer servers.
-    // Note: messageVersions start at 1. If messageVersion == 0, that means messageVersions were reworked, and the client should auto-fail.
-    // This should be increased for every GD-Update and every CT-Update
+    // Note: messageVersions work weirdly. If messageVersion is equal to 0 or is left uninitialized, then it means either of the following:
+    // - messageVersions were reworked, and the client should auto-fail the connection (for future proof purposes)
+    // - the client has already confirmed that the it and the server both have matching versions
+    // Note: messageVersions should be increased for every GD-Update and every CT-Update
     messageVersion:uint32 (id: 0);
     body:MessageBody; 
 }
@@ -113,17 +113,6 @@ table ChangeDefaultColor {
     copyColorID:int = null;
 }
 
-table RequestLevel { 
-
-}
-
-table ReturnLevelString {
-    uniqueIDList:[veryUniqueID];
-    levelString:string;
-    ctVersion:string;
-    isLevelEmpty:bool;
-}
-
 table UpdateFont {
     fontID:uint16;
 }
@@ -161,13 +150,20 @@ table PlayerCursorData {
     playerWave:GDWaveObject;
 }
 
-table RequestForCursors {
+table RequestForInitialData {
 
+}
+
+table ReturnInitialData {
+    uniqueIDList:[veryUniqueID];
+    levelString:string;
+    isLevelEmpty:bool;
+    user:string;
 }
 
 // TODO: Finish
-table GlobedHandshake {
-    accountID:int;
-}
+// table GlobedHandshake {
+//     accountID:int;
+// }
 
 root_type MessageHeader;
