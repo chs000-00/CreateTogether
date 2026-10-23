@@ -34,9 +34,16 @@ table MessageHeader {
     // Otherwise older clients WILL break with a weird error message when joining the newer servers.
     // Note: messageVersions work weirdly. If messageVersion is equal to 0 or is left uninitialized, then it means either of the following:
     // - messageVersions were reworked, and the client should auto-fail the connection (for future proof purposes)
-    // - the client has already confirmed that the it and the server both have matching versions
+    // - the client has already confirmed that it and the server both have matching versions
     // Note: messageVersions should be increased for every GD-Update and every CT-Update
-    messageVersion:uint32 (id: 0);
+    messageVersion:uint16 (id: 0);
+
+    // The origin of the message. 
+    // This will be 0 if the message is trusted enough (sent from server or from host).
+    // This field will ONLY be used when receiving messages from a server. During a P2P session, this field will be ignored and the appropriate sender ID will be used instead.
+    // This field will also be ignored on the server, as the server will modify this field to be the appropriate sender ID.
+    associatedID:uint64;
+
     body:MessageBody; 
 }
 
